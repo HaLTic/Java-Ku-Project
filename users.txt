@@ -1,0 +1,17 @@
+100061144	Saif	2003/10/25	100061144@ku.ac.ae	0557722050	Abu Dhabi, Al Zahiyah	0	x5K3*gQ)nU
+100060637	Ali	2004/02/10	100060637@ku.ac.ae	0503908400	Abu Dhabi, Khalifa City A	0	vuF8-;%rk/
+100060448	Mohammed	2003/03/02	100060448@ku.ac.ae	0544845825	Abu Dhabi, Khalifa City A	0	x/shj"YH6$
+100058758	Zayed	2002/10/10	100058758@ku.ac.ae	0507344484	Abu Dhabi, Al Forsan	0	ZV7w4f$]3m
+100062837	Mariam	2002/6/10	100062837@ku.ac.ae	0557263347	Abu Dhabi, Al Forsan	0	#f%hfdg7$75
+100060000	Rashed	2002/11/02	100060000@ku.ac.ae	0501234567	Dubai, Downtown Dubai	0	r9.}CG{yDt
+100061144	Ahmed	2003/10/25	100061144@ku.ac.ae	0557722050	Abu Dhabi, Al Zahiyah	0	x5K3*gQ)nU
+100060637	Sultan	2004/02/10	100060637@ku.ac.ae	0503908400	Abu Dhabi, Khalifa City A	0	vuF8-;%rk/
+100060448	Hamdan	2003/03/02	100060448@ku.ac.ae	0544845825	Abu Dhabi, Khalifa City A	0	x/shj"YH6$
+100058758	Fahad	2002/10/10	100058758@ku.ac.ae	0507344484	Abu Dhabi, Al Forsan	0	ZV7w4f$]3m
+100062837	Mayed	2002/6/10	100062837@ku.ac.ae	0557263347	Abu Dhabi, Al Forsan	0	#f%hfdg7$75
+100060000	Saleh	2002/11/02	100060000@ku.ac.ae	0501234567	Dubai, Downtown Dubai	0	r9.}CG{yDt
+100061144	Abdulhadi	2003/10/25	100061144@ku.ac.ae	0557722050	Abu Dhabi, Al Zahiyah	0	x5K3*gQ)nU
+100060637	Salem	2004/02/10	100060637@ku.ac.ae	0503908400	Abu Dhabi, Khalifa City A	0	vuF8-;%rk/
+100060448	Nasser	2003/03/02	100060448@ku.ac.ae	0544845825	Abu Dhabi, Khalifa City A	0	x/shj"YH6$
+e	e	e	e	e	e	0	e
+a	a	a	a	a	a	0	a
