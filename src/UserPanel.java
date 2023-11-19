@@ -394,7 +394,6 @@ public class UserPanel {
 	                    		}
 	                    		writer2.newLine();
 		                    }
-		                    
 		
 		                    writer.close(); 
 		                    reader.close();
@@ -516,9 +515,9 @@ public class UserPanel {
                 while((currentLine = reader.readLine()) != null) {
                 	String [] line = currentLine.split("\t");
                 	if (line[0].equals(MainPanel.userID)) {
-                		writer.write("Volunteering History for: " + line[1] + ", (" + line[0] + ")\n");
+                		writer.write("Volunteering History for: " + name + ", (" + MainPanel.userID + ")\n");
                 		writer.write("Total volunteering hours: " + line[6] + " Credit Hours\n\n");
-                		writer.write("Initiatives Participated:\n");
+                		writer.write("Initiatives Participated:\n\n");
                 		
                 		String [] initiativeDetails = new String[10];
                 		int initiativesCounter = 0;
@@ -545,6 +544,10 @@ public class UserPanel {
                 			}
                 			currentLine = reader2.readLine();
                 		}
+						if (initiativesCounter == 0) {
+							writer.write("No initiative participations were found.\n\n");
+						}
+						writer.write("Regards,\nKhalifa University of Science and Technology");
                 	}
                 	
                 }
@@ -554,6 +557,7 @@ public class UserPanel {
             } catch (NullPointerException ex) {
             	ex.printStackTrace();
             }
+			JOptionPane.showMessageDialog(panel, "Volunteering history has been successfully printed.", "Success", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }
