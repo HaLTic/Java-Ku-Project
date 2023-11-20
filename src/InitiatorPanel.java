@@ -2,10 +2,15 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
-import java.util.Date;
-import java.util.Scanner;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import javax.swing.JFormattedTextField.*;
+
+import java.util.*;
+import java.text.*;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
+import org.jdatepicker.impl.*;
+import com.github.lgooddatepicker.components.*;
 
 public class InitiatorPanel {
     private JPanel panel;
@@ -55,26 +60,24 @@ public class InitiatorPanel {
         return scrollPane;
     }
 
-    private String generateID() {
-        // Generate a random 4-digit ID
+    private String generateID() { // Generate a random 4-digit ID
         int id = (int) (Math.random() * 9000) + 1000;
         return String.valueOf(id);
     }
 
-    public static String checkStatus(String date, String time) {
-        // Get the current date and time
+    public static String checkStatus(String date, String time) { // Get the current date and time
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+    
         try {
             Date today = dateFormat.parse(dateFormat.format(currentDate));
             Date currentTime = timeFormat.parse(timeFormat.format(currentDate));
-
+    
             // Parse the initiative date and time
             Date initiativeDate = dateFormat.parse(date);
             Date initiativeTime = timeFormat.parse(time);
-
+    
             if (initiativeDate.before(today) || (initiativeDate.equals(today) && initiativeTime.before(currentTime))) {
                 return "Expired";
             } else {
@@ -92,11 +95,9 @@ public class InitiatorPanel {
         
         // Reads from both initiatives.txt and pendingInitiatives.txt files.
         // Appends counter to limit initiator from having more than 2 active initiatives.
-        try (BufferedReader reader1 = new BufferedReader(new FileReader("initiatives.txt"));
-        	     BufferedReader reader2 = new BufferedReader(new FileReader("pendingInitiatives.txt"))) {
+        try (BufferedReader reader1 = new BufferedReader(new FileReader("initiatives.txt"))) {
         	    for (int i = 0; i < 7; i++) {
         	        reader1.readLine();
-        	        reader2.readLine();
         	    }
         	    while ((line = reader1.readLine()) != null) {
         	        if (line.equals(initiatorName)) {
@@ -109,41 +110,54 @@ public class InitiatorPanel {
         	            reader1.readLine();
         	        }
         	    }
-        	    while ((line = reader2.readLine()) != null) {
-        	        if (line.equals(initiatorName)) {
-        	            counter++;
-        	            if (counter > 1) {
-        	                break;
-        	            }
-        	        }
-        	        for (int i = 0; i < 10; i++) {
-        	            reader2.readLine();
-        	        }
-        	    }
         	} catch (IOException ex) {
         	    ex.printStackTrace();
         	}
 
         
-        if (counter > 1) {
+        if (counter >= 2) {
         	JOptionPane.showMessageDialog(panel, "You're not allowed to create a new initiative\nbecause you have 2 active initiatives.\n ", "Error!", JOptionPane.ERROR_MESSAGE);
         } else {
 	    	boolean allFieldsFilled = false;
 	        JPanel inputPanel = new JPanel(new GridLayout(6, 2));
 	
 	        JTextField nameField = new JTextField();
-	        JTextField dateField = new JTextField();
-	        JTextField timeField = new JTextField();
-	        JTextField creditPointsField = new JTextField();
-	        JTextField descriptionField = new JTextField();
-	        JTextField initiatorNameField = new JTextField(initiatorName);
-	        JTextField [] arrayField = {nameField, dateField, timeField, creditPointsField, descriptionField};
-	        initiatorNameField.setEditable(false);
-	
-	        inputPanel.add(new JLabel("Name:"));
-	        inputPanel.add(nameField);
-	        inputPanel.add(new JLabel("Date (YYYY-MM-DD):"));
-	        inputPanel.add(dateField);
+            UtilDateModel dateModel = new UtilDateModel();
+            Properties p = new Properties();
+            p.put("text.day", "Day");
+            p.put("text.month", "Month");
+            p.put("text.year", "Year");
+            JDatePanelImpl datePanel = new JDatePanelImpl(dateModel, p);
+            JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+            JTextField creditPointsField = new JTextField();
+            JTextField descriptionField = new JTextField();
+            JTextField initiatorNameField = new JTextField();
+
+            JTextField timeField = new JTextField();
+            timeField.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    TimePicker timePicker = new TimePicker();
+                    int option = JOptionPane.showConfirmDialog(panel, timePicker, "Select Time", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                    if (option == JOptionPane.OK_OPTION) {
+                        LocalTime selectedTime = timePicker.getTime();
+                        if (selectedTime != null) {
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+                            String formattedTime = selectedTime.format(formatter);
+                            timeField.setText(formattedTime);
+                        }
+                    }
+                }
+            });
+
+            JTextField[] arrayField = {nameField, timeField, creditPointsField, descriptionField};
+            initiatorNameField.setText(initiatorName);
+            initiatorNameField.setEditable(false);
+
+            inputPanel.add(new JLabel("Name:"));
+            inputPanel.add(nameField);
+            inputPanel.add(new JLabel("Date (YYYY-MM-DD):"));
+	        inputPanel.add(datePicker);
 	        inputPanel.add(new JLabel("Time (HH:MM):"));
 	        inputPanel.add(timeField);
 	        inputPanel.add(new JLabel("Credit Points:"));
@@ -162,12 +176,15 @@ public class InitiatorPanel {
 	                        emptyCounter++;
 	                    }
 	                }
+                    if (datePicker.getJFormattedTextField().getText().isEmpty())
+                        emptyCounter++;
+                        
 	                if (emptyCounter != 0) {
 	                    JOptionPane.showMessageDialog(panel, "Please fill in all the fields.\n" + emptyCounter + " fields remaining", "Error!", JOptionPane.ERROR_MESSAGE);
 	                } else {
 	                    allFieldsFilled = true;		                
-	                    String name = initiatorName;
-		                String date = dateField.getText();
+	                    String name = nameField.getText();
+                        String date = datePicker.getJFormattedTextField().getText();
 		                String time = timeField.getText();
 		                String creditPoints = creditPointsField.getText();
 		                String description = descriptionField.getText();
@@ -175,8 +192,7 @@ public class InitiatorPanel {
 		                String id = generateID();
 		                String status = checkStatus(date, time);
 		                int volunteers = 0;
-		                String volunteerNames = ""; 
-		                
+		                String volunteerNames = "";
 		                
 	                    try (BufferedWriter writer = new BufferedWriter(new FileWriter("pendingInitiatives.txt", true))) {
 	                        InitiativesPanel.approvalInitiatives(id, name, date, time, creditPoints, description, status, initiatorName, volunteers, volunteerNames);
@@ -193,6 +209,26 @@ public class InitiatorPanel {
         }
     }
 
+    public class DateLabelFormatter extends AbstractFormatter { // Create date picker
+        private String datePattern = "yyyy-MM-dd";
+        private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
+
+        @Override
+        public Object stringToValue(String text) throws ParseException {
+            return dateFormatter.parseObject(text);
+        }
+
+        @Override
+        public String valueToString(Object value) throws ParseException {
+            if (value != null) {
+                Calendar cal = (Calendar) value;
+                return dateFormatter.format(cal.getTime());
+            }
+
+            return "";
+        }
+        }
+    
     public static boolean searchQueryInInitiatives(String searchText, String initiatorName) { // Search for initiatives in initiatives.txt file
         try {
             File file = new File("initiatives.txt");

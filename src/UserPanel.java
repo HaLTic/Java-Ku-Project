@@ -188,12 +188,10 @@ public class UserPanel {
         searchBarPanel.setLayout(new FlowLayout()); // Use FlowLayout for the search bar panel
 
         // Create the search bar component
-        JTextField searchBar = new JTextField(20); // Adjust the size as needed
+        JTextField searchBar = new JTextField(20);
         JButton searchButton = new JButton("Search");
         searchBarPanel.add(searchBar);
         searchBarPanel.add(searchButton);
-
-        panel.add(searchBarPanel, BorderLayout.NORTH);
 
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -211,19 +209,16 @@ public class UserPanel {
 
         // Create a new panel for the initiatives
         JPanel initiativesPanel = new JPanel();
-        initiativesPanel.setLayout(new BoxLayout(initiativesPanel, BoxLayout.Y_AXIS));
-
-        // Add the initiativesPanel to the main panel before reading the file
-        panel.add(initiativesPanel, BorderLayout.CENTER);
-
-        try {
-            File file = new File("initiatives.txt");
+        
+		File file = new File("initiatives.txt");
+        try (BufferedReader reader = new BufferedReader(new FileReader(file));) {
+			initiativesPanel.setLayout(new BoxLayout(initiativesPanel, BoxLayout.Y_AXIS));
 
             if (file.length() == 0) {
                 JOptionPane.showMessageDialog(panel, "No initiatives found.", "Warning", JOptionPane.INFORMATION_MESSAGE);  
-                main.showPanel("Initiator", UserPanel.name);
+                main.showPanel("Initiator", name);
             }
-            BufferedReader reader = new BufferedReader(new FileReader("initiatives.txt"));
+            
             String line;
             while ((line = reader.readLine()) != null) {
             	String id = line;
@@ -280,20 +275,36 @@ public class UserPanel {
             		continue;
 	            }
 	        }
-            reader.close();
         } catch (IOException error) {
             error.printStackTrace();
         }
-        panel.add(initiativesPanel, BorderLayout.CENTER);
+        // Create the initiatives panel and add it to a JScrollPane
+        JScrollPane initiativesScrollPane = new JScrollPane(initiativesPanel);
+        initiativesScrollPane.setPreferredSize(new Dimension(Main.width/2, Main.height*3/4)); // Set preferred size
 
+		// Create the back button component
         JButton backButton = new JButton("Back");
-        panel.add(backButton, BorderLayout.SOUTH);
+        backButton.setPreferredSize(new Dimension(panel.getWidth(), 30)); // Set preferred size
+        JPanel backButtonPanel = new JPanel();
+        backButtonPanel.add(backButton);
 
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	main.showPanel("User");
             }
         });
+
+		// Create a new JPanel for the main panel
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+        // Add the search bar panel, user panel, and back button panel to the main panel
+        mainPanel.add(searchBarPanel);
+        mainPanel.add(initiativesScrollPane);
+        mainPanel.add(backButtonPanel);
+
+        // Add the main panel to the panel
+        panel.add(mainPanel);
 
         panel.revalidate(); // Revalidate the panel to update the layout
         panel.repaint(); // Repaint the panel to reflect the changes
@@ -306,8 +317,8 @@ public class UserPanel {
     	
     	if (specificArray[6].equals("Active")) {
     		boolean isRegistered = false;
-    		for (String name : specificArray[9].split(" ")) {
-    			if (name.equals(UserPanel.name)) {
+    		for (String registeredName : specificArray[9].split(" ")) {
+    			if (name.equals(registeredName)) {
     				isRegistered = true;
     				break;
     			}
@@ -329,7 +340,7 @@ public class UserPanel {
     	}
         
         switch (choice) {
-	        case 1: // If "Register" is clicked
+	        case 1: // If "Register"/"Withdraw" was pressed
 	        	String volunteerID = specificArray[0];
                 int creditHours = Integer.parseInt(specificArray[4]);
                 String volunteers = specificArray[8];
@@ -363,9 +374,9 @@ public class UserPanel {
 		                    		currentLine = Integer.toString(volunteerCount);
 		                    		writer.write(currentLine + "\n");
 		                    		if (volunteerNamesLine.equals(" "))
-		                    			volunteerNamesLine = UserPanel.name;
+		                    			volunteerNamesLine = name;
 		                    		else
-		                    			volunteerNamesLine += UserPanel.name + " ";
+		                    			volunteerNamesLine += name + " ";
 		                            currentLine = volunteerNamesLine;
 		                            writer.write(currentLine + "\n");
 		                            reader.readLine();
@@ -379,7 +390,7 @@ public class UserPanel {
 	                    		String [] updatedLine = new String[8];
 	                    		String id = line[0];
 	                    		for (int i = 0; i < line.length; i++) {
-	                    			if(line[i].equals(line[6]) && id.equals(UserPanel.name)) {
+	                    			if(line[i].equals(line[6]) && id.equals(MainPanel.userID)) {
 	                    				int updatedHours = Integer.parseInt(line[i]) + creditHours;
 	                    				updatedLine[i] = Integer.toString(updatedHours);
 	                    			}
@@ -441,11 +452,19 @@ public class UserPanel {
 		                    		int volunteerCount = Integer.parseInt(volunteers);
 		                    		volunteerCount--;
 		                    		currentLine = Integer.toString(volunteerCount);
-		                    		writer.write(currentLine + "\n");
-		                    		volunteerNamesLine = volunteerNamesLine.replace(UserPanel.name + " ", "");
+									writer.write(currentLine + "\n");
+		                    		String[] names = volunteerNamesLine.split(" ");
+									StringBuilder sb = new StringBuilder();
+									for (String specificName : names) {
+										if (!specificName.equals(name)) {
+											sb.append(specificName);
+											sb.append(" ");
+										}
+									}
+									volunteerNamesLine = sb.toString();
 		                            currentLine = volunteerNamesLine;
 		                            writer.write(currentLine + "\n");
-		                            reader.readLine();
+									reader.readLine();
 		                        } else {
 		                        	writer.write(currentLine + "\n");
 		                        }
@@ -456,7 +475,7 @@ public class UserPanel {
 	                    		String [] updatedLine = new String[8];
 	                    		String id = line[0];
 	                    		for (int i = 0; i < line.length; i++) {
-	                    			if(line[i].equals(line[6]) && id.equals(UserPanel.name)) {
+	                    			if(line[i].equals(line[6]) && id.equals(MainPanel.userID)) {
 	                    				int updatedHours = Integer.parseInt(line[i]) - creditHours;
 	                    				updatedLine[i] = Integer.toString(updatedHours);
 	                    			}
@@ -515,7 +534,7 @@ public class UserPanel {
                 while((currentLine = reader.readLine()) != null) {
                 	String [] line = currentLine.split("\t");
                 	if (line[0].equals(MainPanel.userID)) {
-                		writer.write("Volunteering History for: " + name + ", (" + MainPanel.userID + ")\n");
+                		writer.write("Volunteering History for: " + name + " (" + MainPanel.userID + ")\n");
                 		writer.write("Total volunteering hours: " + line[6] + " Credit Hours\n\n");
                 		writer.write("Initiatives Participated:\n\n");
                 		

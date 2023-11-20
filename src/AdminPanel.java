@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.io.*;
 import java.util.*;
 
-public class AdminPanel {
+public class AdminPanel{
     private JPanel panel;
 
     public AdminPanel(Main main) {
@@ -72,12 +72,10 @@ public class AdminPanel {
 	    searchBarPanel.setLayout(new FlowLayout()); // Use FlowLayout for the search bar panel
 	
 	    // Create the search bar component
-	    JTextField searchBar = new JTextField(20);
-	    JButton searchButton = new JButton("Search");
-	    searchBarPanel.add(searchBar);
-	    searchBarPanel.add(searchButton);
-	
-	    panel.add(searchBarPanel, BorderLayout.NORTH);
+        JTextField searchBar = new JTextField(20);
+        JButton searchButton = new JButton("Search");
+        searchBarPanel.add(searchBar);
+        searchBarPanel.add(searchButton);
 	
 	    searchButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
@@ -93,8 +91,9 @@ public class AdminPanel {
 	        }
 	    });
 	
+        JPanel userPanel = new JPanel();
 	    try (BufferedReader reader = new BufferedReader(new FileReader("users.txt"))) {
-	        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+            userPanel.setLayout(new BoxLayout(userPanel, BoxLayout.Y_AXIS));
 	        String line;
 	        boolean isEmpty = true;
 	
@@ -151,8 +150,8 @@ public class AdminPanel {
 	                    }
 	                });
 	
-	                panel.add(userBox);
-	                panel.add(Box.createVerticalStrut(10)); // Add some vertical spacing
+	                userPanel.add(userBox);
+	                userPanel.add(Box.createVerticalStrut(10)); // Add some vertical spacing
 	            }
 	        }
 	
@@ -162,16 +161,35 @@ public class AdminPanel {
 	    } catch (IOException error) {
 	        error.printStackTrace();
 	    }
-	
-	    JButton backButton = new JButton("Back");
-	    panel.add(backButton);
+        
+        // Create the user panel and add it to a JScrollPane
+        JScrollPane userScrollPane = new JScrollPane(userPanel);
+        userScrollPane.setPreferredSize(new Dimension(Main.width/2, Main.height*3/4)); // Set preferred size
+	    
+        // Create the back button component
+        JButton backButton = new JButton("Back");
+        backButton.setPreferredSize(new Dimension(panel.getWidth(), 30)); // Set preferred size
+        JPanel backButtonPanel = new JPanel();
+        backButtonPanel.add(backButton);
 	
 	    backButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	            main.showPanel("Admin"); // Back to Admin page
 	        }
 	    });
-	
+        
+        // Create a new JPanel for the main panel
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+        // Add the search bar panel, user panel, and back button panel to the main panel
+        mainPanel.add(searchBarPanel);
+        mainPanel.add(userScrollPane);
+        mainPanel.add(backButtonPanel);
+
+        // Add the main panel to the panel
+        panel.add(mainPanel);
+
 	    // Revalidate and repaint the panel
 	    panel.revalidate();
 	    panel.repaint();
@@ -186,16 +204,14 @@ public class AdminPanel {
         panel.add(title, BorderLayout.NORTH);
 
         // Create a panel for the search bar
-        JPanel searchBarPanel = new JPanel();
-        searchBarPanel.setLayout(new FlowLayout()); // Use FlowLayout for the search bar panel
-
-        // Create the search bar component
-        JTextField searchBar = new JTextField(20); // Adjust the size as needed
+	    JPanel searchBarPanel = new JPanel();
+	    searchBarPanel.setLayout(new FlowLayout()); // Use FlowLayout for the search bar panel
+	
+	    // Create the search bar component
+        JTextField searchBar = new JTextField(20);
         JButton searchButton = new JButton("Search");
         searchBarPanel.add(searchBar);
         searchBarPanel.add(searchButton);
-
-        panel.add(searchBarPanel, BorderLayout.NORTH);
 
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -212,20 +228,16 @@ public class AdminPanel {
         });
 
         // Create a new panel for the initiatives
-        JPanel initiativesPanel = new JPanel();
-        initiativesPanel.setLayout(new BoxLayout(initiativesPanel, BoxLayout.Y_AXIS));
+        JPanel pendingPanel = new JPanel();
 
-        // Add the initiativesPanel to the main panel before reading the file
-        panel.add(initiativesPanel, BorderLayout.CENTER);
-
-        try {
-            File file = new File("pendingInitiatives.txt");
-
+        File file = new File("pendingInitiatives.txt");
+        try (BufferedReader reader = new BufferedReader(new FileReader(file));){
+            
+            pendingPanel.setLayout(new BoxLayout(pendingPanel, BoxLayout.Y_AXIS));
             if (file.length() == 0) {
                 JOptionPane.showMessageDialog(panel, "No pending initiatives found.", "Warning", JOptionPane.INFORMATION_MESSAGE);  
                 main.showPanel("Admin");
             }
-            BufferedReader reader = new BufferedReader(new FileReader("pendingInitiatives.txt"));
             String line;
             while ((line = reader.readLine()) != null) {
             	String id = line;
@@ -274,7 +286,7 @@ public class AdminPanel {
 	                    }
 	                });
 	                
-	                initiativesPanel.add(titleBox);
+	                pendingPanel.add(titleBox);
 	            } else {
 	            	for (int i = 0; i < 9; i++) {
             			reader.readLine();
@@ -286,16 +298,34 @@ public class AdminPanel {
         } catch (IOException error) {
             error.printStackTrace();
         }
-        panel.add(initiativesPanel, BorderLayout.CENTER);
 
+        // Create the user panel and add it to a JScrollPane
+        JScrollPane pendingScrollPane = new JScrollPane(pendingPanel);
+        pendingScrollPane.setPreferredSize(new Dimension(Main.width/2, Main.height*3/4)); // Set preferred size
+	    
+         // Create the back button component
         JButton backButton = new JButton("Back");
-        panel.add(backButton, BorderLayout.SOUTH);
+        backButton.setPreferredSize(new Dimension(panel.getWidth(), 30)); // Set preferred size
+        JPanel backButtonPanel = new JPanel();
+        backButtonPanel.add(backButton);
 
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	main.showPanel("Admin");
             }
         });
+
+         // Create a new JPanel for the main panel
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+        // Add the search bar panel, user panel, and back button panel to the main panel
+        mainPanel.add(searchBarPanel);
+        mainPanel.add(pendingScrollPane);
+        mainPanel.add(backButtonPanel);
+
+        // Add the main panel to the panel
+        panel.add(mainPanel);
 
         panel.revalidate(); // Revalidate the panel to update the layout
         panel.repaint(); // Repaint the panel to reflect the changes
@@ -399,7 +429,7 @@ public class AdminPanel {
                 null, options, options[1]);
 
         if (choice == 1) { // If "Remove" is clicked
-            int dialogResult = JOptionPane.showConfirmDialog(panel, "Are you sure you want to remove this user?", "Confirm Removal", JOptionPane.YES_NO_OPTION);
+            int dialogResult = JOptionPane.showConfirmDialog(panel2, "Are you sure you want to remove this user?", "Confirm Removal", JOptionPane.YES_NO_OPTION);
             if (dialogResult == JOptionPane.YES_OPTION) { // If admin confirms deletion of user
                 // Remove user here
                 try {
@@ -431,14 +461,17 @@ public class AdminPanel {
                     reader.close();
                     
                     if (tempFile.renameTo(inputFile)) {// Updating file
-                        JOptionPane.showMessageDialog(panel, "User successfully removed.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(panel2, "User successfully removed.", "Success", JOptionPane.INFORMATION_MESSAGE);
                         updateUsersList(main, ""); // Update the user list
                     } else {
-                        JOptionPane.showMessageDialog(panel, "User failed to remove.", "Failed", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(panel2, "User failed to remove.", "Failed", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (IOException error) {
                     error.printStackTrace();
                 }
+            }
+            else {
+                adminUserOptions(main, arrayField, editPanel);
             }
         }
     }
@@ -451,7 +484,7 @@ public class AdminPanel {
                 null, options, options[0]);
         switch(choice) {
             case 1:
-            	int dialogResult = JOptionPane.showConfirmDialog(panel, "Are you sure you want to remove the pending initiative?", "Confirm Removal", JOptionPane.YES_NO_OPTION);
+            	int dialogResult = JOptionPane.showConfirmDialog(panel2, "Are you sure you want to remove the pending initiative?", "Confirm Removal", JOptionPane.YES_NO_OPTION);
                 if (dialogResult == JOptionPane.YES_OPTION) {
                     // Remove user here
                     try {
@@ -461,7 +494,7 @@ public class AdminPanel {
                         BufferedReader reader = new BufferedReader(new FileReader(inputFile));
                         BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
                         
-                        String lineToRemove = specificArray[0]; // The line that contains the user's information
+                        String lineToRemove = specificArray[0]; // The line that contains the pending initiative information
 
                         String currentLine;
                         while((currentLine = reader.readLine()) != null) {
@@ -477,31 +510,35 @@ public class AdminPanel {
                         writer.close(); 
                         reader.close();
                         
-                        if (tempFile.renameTo(inputFile)) {// Updating file
-                            JOptionPane.showMessageDialog(panel, "Pending initiative successfully removed.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        if (tempFile.renameTo(inputFile)) { // Updating file
+                            JOptionPane.showMessageDialog(panel2, "Pending initiative successfully removed.", "Success", JOptionPane.INFORMATION_MESSAGE);
                             adminApprovalList(main, searchQuery); // Update the user list
                         } else {
-                            JOptionPane.showMessageDialog(panel, "Pending initiative failed to remove.", "Failed", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(panel2, "Pending initiative failed to remove.", "Failed", JOptionPane.INFORMATION_MESSAGE);
                         }
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
                 }
-            	break;
+            	else
+                    adminApprovalOptions(main, specificArray, initiatives, searchQuery);
+                break;
             case 2:
-            	dialogResult = JOptionPane.showConfirmDialog(panel, "Are you sure you want to approve the pending initiative?", "Confirm Approval", JOptionPane.YES_NO_OPTION);
+            	dialogResult = JOptionPane.showConfirmDialog(panel2, "Are you sure you want to approve the pending initiative?", "Confirm Approval", JOptionPane.YES_NO_OPTION);
                 if (dialogResult == JOptionPane.YES_OPTION) {
-                    // Remove user here
+                    // Approve initiative here
                     try {
                     	InitiativesPanel.approvalInitiatives(specificArray[0]);
-                        JOptionPane.showMessageDialog(panel, "Pending initiative successfully approved.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        adminApprovalList(main, searchQuery); // Update the user list
+                        JOptionPane.showMessageDialog(panel2, "Pending initiative successfully approved.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        adminApprovalList(main, searchQuery); // Update the pending initiative list
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
                     
                 }
-            	break;
+            	else
+                    adminApprovalOptions(main, specificArray, initiatives, searchQuery);
+                break;
             default:
             	break;
         }
@@ -524,9 +561,7 @@ public class AdminPanel {
         JButton searchButton = new JButton("Search");
         searchBarPanel.add(searchBar);
         searchBarPanel.add(searchButton);
-
-        panel.add(searchBarPanel, BorderLayout.NORTH);
-
+        
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String searchText = searchBar.getText(); // Get the text from the search bar
@@ -543,19 +578,13 @@ public class AdminPanel {
 
         // Create a new panel for the initiatives
         JPanel initiativesPanel = new JPanel();
-        initiativesPanel.setLayout(new BoxLayout(initiativesPanel, BoxLayout.Y_AXIS));
-
-        // Add the initiativesPanel to the main panel before reading the file
-        panel.add(initiativesPanel, BorderLayout.CENTER);
-
-        try {
-            File file = new File("initiatives.txt");
-
+        File file = new File("initiatives.txt");
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))){
+            initiativesPanel.setLayout(new BoxLayout(initiativesPanel, BoxLayout.Y_AXIS));
             if (file.length() == 0) {
                 JOptionPane.showMessageDialog(panel, "No initiatives found.", "Warning", JOptionPane.INFORMATION_MESSAGE);  
-                main.showPanel("Initiator", UserPanel.name);
+                main.showPanel("Admin");
             }
-            BufferedReader reader = new BufferedReader(new FileReader("initiatives.txt"));
             String line;
             while ((line = reader.readLine()) != null) {
             	String id = line;
@@ -612,21 +641,37 @@ public class AdminPanel {
 	            		continue;
 		            }
 	        }
-            reader.close();
-            
         } catch (IOException error) {
             error.printStackTrace();
         }
-        panel.add(initiativesPanel, BorderLayout.CENTER);
+        
+        // Create the user panel and add it to a JScrollPane
+        JScrollPane initiativesScrollPane = new JScrollPane(initiativesPanel);
+        initiativesScrollPane.setPreferredSize(new Dimension(Main.width/2, Main.height*3/4)); // Set preferred size
 
+        // Create the back button component
         JButton backButton = new JButton("Back");
-        panel.add(backButton, BorderLayout.SOUTH);
+        backButton.setPreferredSize(new Dimension(panel.getWidth(), 30)); // Set preferred size
+        JPanel backButtonPanel = new JPanel();
+        backButtonPanel.add(backButton);
 
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	main.showPanel("Initiator", UserPanel.name);
+            	main.showPanel("Admin");
             }
         });
+
+        // Create a new JPanel for the main panel
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+        // Add the search bar panel, user panel, and back button panel to the main panel
+        mainPanel.add(searchBarPanel);
+        mainPanel.add(initiativesScrollPane);
+        mainPanel.add(backButtonPanel);
+
+        // Add the main panel to the panel
+        panel.add(mainPanel);
 
         panel.revalidate(); // Revalidate the panel to update the layout
         panel.repaint(); // Repaint the panel to reflect the changes
@@ -668,10 +713,10 @@ public class AdminPanel {
                     reader.close();
                     
                     if (tempFile.renameTo(inputFile)) { // Updating file
-                        JOptionPane.showMessageDialog(panel, "Initiative successfully removed.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(panel2, "Initiative successfully removed.", "Success", JOptionPane.INFORMATION_MESSAGE);
                         initiativesList(main, searchQuery); // Update the initiative list
                     } else {
-                        JOptionPane.showMessageDialog(panel, "Initiative failed to remove.", "Failed", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(panel2, "Initiative failed to remove.", "Failed", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -700,5 +745,3 @@ public class AdminPanel {
     }
 
 }
-
-	

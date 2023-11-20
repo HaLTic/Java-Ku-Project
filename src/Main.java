@@ -2,25 +2,26 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 
-public class Main {
-    private JFrame frame;
+public class Main extends JFrame{
     public static String PanelName;
+    static int width = 400;
+    static int height = 600;
 
     public Main() {
-        frame = new JFrame("Volunteer for the Earth");
-        frame.setSize(400, 600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
-        frame.setVisible(true);
+        new JFrame("Volunteer for the Earth");
+        setSize(width, height);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+        setVisible(true);
 
         // Start with the main panel
         showPanel("Main");
     }
     
     public void showPanel() {
-        frame.getContentPane().removeAll();
-        frame.revalidate();
-        frame.repaint();
+        getContentPane().removeAll();
+        revalidate();
+        repaint();
     }
     
     public void showPanel(String panelName) { // All panels except for Initiator panel)
@@ -49,10 +50,10 @@ public class Main {
             component = scrollPane;
         }
         
-        frame.getContentPane().removeAll();
-        frame.add(component);
-        frame.revalidate();
-        frame.repaint();
+        getContentPane().removeAll();
+        add(component);
+        revalidate();
+        repaint();
     }
 
     public void showPanel(String panelName, String name) { // Initiator Panel
@@ -64,10 +65,10 @@ public class Main {
             JScrollPane scrollPane = initiatorPanel.getPanel();
             component = scrollPane;
         }
-        frame.getContentPane().removeAll();
-        frame.add(component);
-        frame.revalidate();
-        frame.repaint();
+        getContentPane().removeAll();
+        add(component);
+        revalidate();
+        repaint();
     }
 
     public static void main(String[] args) throws FileNotFoundException {

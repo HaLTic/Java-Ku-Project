@@ -64,7 +64,7 @@ public class SignupPanel {
                     try (BufferedWriter writer = new BufferedWriter(new FileWriter("users.txt", true))) {
                         Random random = new Random();
                         ID = random.nextInt(9000) + 1000;
-                        writer.write(ID + " " + name + " " + dob + " " + email + " " + phone + " " + address + " " + 0 + " " + password); // Adds a new user to user.txt file
+                        writer.write(ID + "\t" + name + "\t" + dob + "\t" + email + "\t" + phone + "\t" + address + "\t" + 0 + "\t" + password); // Adds a new user to user.txt file
                         writer.newLine();
                         writer.flush();
                         MainPanel.userID = Integer.toString(ID); // Set the userID to the generated ID
