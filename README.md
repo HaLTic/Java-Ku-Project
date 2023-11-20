@@ -1,18 +1,17 @@
-## Getting Started
+Admin info:
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+-------------------
+Username: admin
+Password: admin2023
+-------------------
 
-## Folder Structure
+* Welcome to our OOP Fall 2023 Project for KU.
+* It's a simple volunteering app following the theme of the year (Sustainability).
 
-The workspace contains two folders by default, where:
+* This project was designed to allow people to volunteer in different activities that help our earth to stay clean, reduce wastes, go for green energy solutions …etc.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+* This app allows two types of users namely for the initiators and the others are volunteers.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+* The initiators can upload their events/suggested activities on the app along with the required details which are further available to the interested volunteers.
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+* Each initiative proposed by a user must be approved by a manager who should be able to judge if it is theme related or not. If a certain event makes another user interested and they want to volunteer for it then they can register for that event and will be awarded some sustainability credit
