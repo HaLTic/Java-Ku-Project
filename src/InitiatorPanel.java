@@ -1,25 +1,22 @@
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.JFormattedTextField.*;
-
-import java.util.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.text.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-
 import org.jdatepicker.impl.*;
 import com.github.lgooddatepicker.components.*;
 
 public class InitiatorPanel {
     private JPanel panel;
-    private String initiatorName = "";
-    private int initiativesCounter = 0;
-    private static boolean isRegistered;
+    public static String INITIATOR_NAME = "";
+    public static boolean isRegistered;
 
-    public InitiatorPanel(Main main, String initiatorName) {
-    	this.initiatorName = initiatorName;
+    public InitiatorPanel(Main main, String initiator_name) {
+    	INITIATOR_NAME = initiator_name;
         panel = new JPanel();
         panel.setLayout(new GridLayout(7, 2));
 
@@ -46,14 +43,14 @@ public class InitiatorPanel {
         viewActiveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 isRegistered = true;
-            	initiativesList(main, "");
+            	InitiativesPanel.initiativesList(main, InitiatorPanel.this, "", INITIATOR_NAME);
             }
         });
 
         viewPendingButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	isRegistered = false;
-            	initiativesList(main, "");
+            	InitiativesPanel.initiativesList(main, InitiatorPanel.this, "", INITIATOR_NAME);
             }
         });
 
@@ -64,11 +61,8 @@ public class InitiatorPanel {
         });
     }
 
-    public JScrollPane getPanel() {
-        JScrollPane scrollPane = new JScrollPane(panel,
-            ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        return scrollPane;
+    public JPanel getPanel() {
+        return panel;
     }
 
     private String generateID() { // Generate a random 4-digit ID
@@ -111,7 +105,7 @@ public class InitiatorPanel {
         	        reader1.readLine();
         	    }
         	    while ((line = reader1.readLine()) != null) {
-        	        if (line.equals(initiatorName)) {
+        	        if (line.equals(INITIATOR_NAME)) {
         	            counter++;
         	            if (counter > 1) {
         	                break;
@@ -140,6 +134,7 @@ public class InitiatorPanel {
             p.put("text.year", "Year");
             JDatePanelImpl datePanel = new JDatePanelImpl(dateModel, p);
             JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+            datePicker.getJFormattedTextField().setEditable(false);
             JTextField creditPointsField = new JTextField();
             JTextField descriptionField = new JTextField();
             JTextField initiatorNameField = new JTextField();
@@ -162,7 +157,7 @@ public class InitiatorPanel {
             });
 
             JTextField[] arrayField = {nameField, timeField, creditPointsField, descriptionField};
-            initiatorNameField.setText(initiatorName);
+            initiatorNameField.setText(INITIATOR_NAME);
             initiatorNameField.setEditable(false);
 
             inputPanel.add(new JLabel("Name:"));
@@ -206,7 +201,7 @@ public class InitiatorPanel {
 		                String volunteerNames = "";
 		                
 	                    try (BufferedWriter writer = new BufferedWriter(new FileWriter("pendingInitiatives.txt", true))) {
-	                        InitiativesPanel.approvalInitiatives(id, name, date, time, creditPoints, description, status, initiatorName, volunteers, volunteerNames);
+	                        InitiativesPanel.approvalInitiatives(volunteers, id, name, date, time, creditPoints, description, status, initiatorName, volunteerNames);
 	                        JOptionPane.showMessageDialog(panel, "Initiative created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 	                    } catch (IOException ex) {
 	                        ex.printStackTrace();
@@ -240,201 +235,7 @@ public class InitiatorPanel {
         }
         }
     
-    public static boolean searchQueryInInitiatives(String searchText, String initiatorName) { // Search for initiatives in initiatives.txt file
-        try {
-            File file;
-            if (isRegistered) {
-                file = new File("initiatives.txt");
-            }
-            else
-                file = new File("pendingInitiatives.txt");
-            Scanner scanner = new Scanner(file);
-            
-            String line = "";
-            while (scanner.hasNextLine()) {
-            	scanner.nextLine();
-                line = scanner.nextLine();
-                if (line.toLowerCase().contains(searchText.toLowerCase())) {
-                	for (int i = 0; i < 9; i++) {
-                    	if (!scanner.hasNextLine()) {
-                    		scanner.close();
-                    		return false;
-                    	}
-                    	if (line.equals(initiatorName)) {
-    	                    scanner.close();
-    	                    return true; // Query found
-                    	} else {
-                    		line = scanner.nextLine();
-                    	}
-            		}
-                }
-                else {
-	                for (int i = 0; i < 9; i++) {
-	                	if (!scanner.hasNextLine()) {
-	                		scanner.close();
-	                		return false;
-	                	}
-	                	line = scanner.nextLine();
-	        		}
-                }
-                
-            }
-
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        if (searchText.equals(""))
-            return true;
-
-        return false; // Query not found
-    }
-
-    public void initiativesList(Main main, String searchQuery) {
-    	panel.removeAll(); // Remove existing components
-        panel.setLayout(new BorderLayout()); // Use BorderLayout
-
-        JLabel title = new JLabel("Initiatives List");
-        title.setFont(new Font("Arial", Font.PLAIN, 24));
-        panel.add(title, BorderLayout.NORTH);
-
-        // Create a panel for the search bar
-        JPanel searchBarPanel = new JPanel();
-        searchBarPanel.setLayout(new FlowLayout()); // Use FlowLayout for the search bar panel
-
-        // Create the search bar component
-        JTextField searchBar = new JTextField(20); // Adjust the size as needed
-        JButton searchButton = new JButton("Search");
-        searchBarPanel.add(searchBar);
-        searchBarPanel.add(searchButton);
-
-        panel.add(searchBarPanel, BorderLayout.NORTH);
-
-        searchButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String searchText = searchBar.getText(); // Get the text from the search bar
-                boolean queryFound = searchQueryInInitiatives(searchText, initiatorName); // Search the initiative in the file
-
-                // Check if the initiative was not found
-                if (!queryFound)
-                    // Display error message
-                    JOptionPane.showMessageDialog(panel, "Initiative not found", "Error", JOptionPane.ERROR_MESSAGE);
-                else
-                    initiativesList(main, searchText);
-            }
-        });
-
-        // Create a new panel for the initiatives
-        JPanel initiativesPanel = new JPanel();
-        initiativesPanel.setLayout(new BoxLayout(initiativesPanel, BoxLayout.Y_AXIS));
-
-        // Add the initiativesPanel to the main panel before reading the file
-        panel.add(initiativesPanel, BorderLayout.CENTER);
-
-        try {
-            File file;
-            if (isRegistered)
-                file = new File("initiatives.txt");
-            else 
-                file = new File("pendingInitiatives.txt");
-
-            if (file.length() == 0) {
-                JOptionPane.showMessageDialog(panel, "No initiatives found.", "Warning", JOptionPane.INFORMATION_MESSAGE);  
-                main.showPanel("Initiator", UserPanel.name);
-            }
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            String line;
-            while ((line = reader.readLine()) != null) {
-            	String id = line;
-            	String name = reader.readLine();
-            	if (name.toLowerCase().contains(searchQuery.toLowerCase())) {
-	        		String date = reader.readLine().trim();
-	                String time = reader.readLine().trim();
-	                String creditPoints = reader.readLine();
-	                String description = reader.readLine();
-	                String status = checkStatus(date, time);
-	                reader.readLine();
-	                String initiatorName = reader.readLine();
-	                String volunteers = reader.readLine();
-	                String volunteerNames = reader.readLine().trim();
-	                reader.readLine(); // Skips the seperator line
-	
-	                if (initiatorName.equals(this.initiatorName)) {
-	                	initiativesCounter++;
-	                	Box titleBox = Box.createHorizontalBox();
-		                titleBox.add(new JLabel("Name: " + name));
-		                titleBox.add(Box.createHorizontalStrut(10)); // Add some horizontal spacing
-		
-		                JButton infoButton = new JButton("Info");
-		                titleBox.add(infoButton);
-		
-		                infoButton.addActionListener(new ActionListener() {
-		                	public void actionPerformed(ActionEvent e) {
-		                		String [] specificArray = {id, name, date, time, creditPoints, description, status, initiatorName, volunteers, volunteerNames};
-		                        try {
-		                            StringBuilder initiatives = new StringBuilder();
-		
-		                            initiatives.append("ID: ").append(specificArray[0]).append("\n");
-		                            initiatives.append("Name: ").append(specificArray[1]).append("\n");
-		                            initiatives.append("Date: ").append(specificArray[2]).append("\n");
-		                            initiatives.append("Time: ").append(specificArray[3]).append("\n");
-		                            initiatives.append("Credit Points: ").append(specificArray[4]).append("\n");
-		                            initiatives.append("Description: ").append(specificArray[5]).append("\n");
-		                            initiatives.append("Status: ").append(specificArray[6]).append("\n");
-		                            initiatives.append("Initiator Name: ").append(specificArray[7]).append("\n");
-		                            initiatives.append("Volunteers: ").append(specificArray[8]).append("\n");
-		                            initiatives.append("\n");
-		                            
-		                            initiativesOptions(main, specificArray, initiatives, searchQuery);
-		                            
-		                        } catch (NullPointerException ex) {
-		                        	ex.printStackTrace();
-		                        }
-		                    }
-		                });
-		                
-		                initiativesPanel.add(titleBox);
-	                }
-	                
-	            } else {
-	            	for (int i = 0; i < 9; i++) {
-            			reader.readLine();
-            		}
-            		continue;
-	            }
-	        }
-            reader.close();
-            
-            switch(initiativesCounter) {
-            	case 0:
-            		JOptionPane.showMessageDialog(panel, "No initiatives have been created.", "Created Initiatives", JOptionPane.ERROR_MESSAGE);
-            		main.showPanel("Initiator", UserPanel.name);
-            		break;
-            	default:
-            		break;
-            }
-            
-            
-        } catch (IOException error) {
-            error.printStackTrace();
-        }
-        panel.add(initiativesPanel, BorderLayout.CENTER);
-
-        JButton backButton = new JButton("Back");
-        panel.add(backButton, BorderLayout.SOUTH);
-
-        backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	main.showPanel("Initiator", UserPanel.name);
-            }
-        });
-
-        panel.revalidate(); // Revalidate the panel to update the layout
-        panel.repaint(); // Repaint the panel to reflect the changes
-    }
-    
-    public void initiativesOptions(Main main, String [] specificArray, StringBuilder initiatives, String searchQuery) {
+    public static void initiativesOptions(Main main, InitiatorPanel initiatorPanel, String [] specificArray, StringBuilder initiatives, String searchQuery) {
         File file;
         Object[] options;
         if (isRegistered) {
@@ -478,7 +279,7 @@ public class InitiatorPanel {
                     
                     if (tempFile.renameTo(file)) { // Updating file
                         JOptionPane.showMessageDialog(panel2, "Initiative successfully removed.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        initiativesList(main, searchQuery); // Update the initiative list
+                        InitiativesPanel.initiativesList(main, initiatorPanel, searchQuery, INITIATOR_NAME); // Update the initiative list
                     } else {
                         JOptionPane.showMessageDialog(panel2, "Initiative failed to remove.", "Failed", JOptionPane.INFORMATION_MESSAGE);
                     }
@@ -489,7 +290,7 @@ public class InitiatorPanel {
                 }
             }
             else
-            	initiativesOptions(main, specificArray, initiatives, searchQuery);
+            	initiativesOptions(main, initiatorPanel, specificArray, initiatives, searchQuery);
             break;
         case 2: // If "Edit" was pressed
         	JTextField IDField = new JTextField(specificArray[0]);
@@ -577,13 +378,13 @@ public class InitiatorPanel {
                     updatedInitiatives.append("Volunteers: ").append(specificArray[8]).append("\n");
                     updatedInitiatives.append("\n");
                     
-                    initiativesOptions(main, specificArray, updatedInitiatives, searchQuery); // Update the initiative
+                    initiativesOptions(main, initiatorPanel, specificArray, updatedInitiatives, searchQuery); // Update the initiative
                 } else {
                     JOptionPane.showMessageDialog(panel2, "Initiative failed to edit.", "Failed", JOptionPane.INFORMATION_MESSAGE);
-                    initiativesOptions(main, specificArray, initiatives, searchQuery);
+                    initiativesOptions(main, initiatorPanel, specificArray, initiatives, searchQuery);
                 }
             }
-            initiativesOptions(main, specificArray, initiatives, searchQuery);
+            initiativesOptions(main, initiatorPanel, specificArray, initiatives, searchQuery);
         	break;
         case 3: // If "View Volunteers" was pressed
         	StringBuilder volunteerList =  new StringBuilder();
@@ -595,7 +396,7 @@ public class InitiatorPanel {
         		JOptionPane.showMessageDialog(panel2, "No registered volunteer found.", "Error", JOptionPane.ERROR_MESSAGE);
         	} else
         		JOptionPane.showMessageDialog(panel2, volunteerList.toString(), "Volunteers Info", JOptionPane.PLAIN_MESSAGE);
-        	initiativesOptions(main, specificArray, initiatives, searchQuery);
+        	initiativesOptions(main, initiatorPanel, specificArray, initiatives, searchQuery);
         	break;
         default:
         	break;

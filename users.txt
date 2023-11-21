@@ -3,16 +3,16 @@
 100060448	Mohammed	2003/03/02	100060448@ku.ac.ae	0544845825	Abu Dhabi, Khalifa City A	6	x/shj"YH6$
 100058758	Zayed	2002/10/10	100058758@ku.ac.ae	0507344484	Abu Dhabi, Al Forsan	3	ZV7w4f$]3m
 100062837	Mariam	2002/6/10	100062837@ku.ac.ae	0557263347	Abu Dhabi, Al Forsan	3	#f%hfdg7$75
-100060011	Rashed	2002/11/02	100060000@ku.ac.ae	0501234567	Dubai, Downtown Dubai	3	r9.}CG{yDt
-100061234	Ahmed	2003/10/25	100061144@ku.ac.ae	0557722050	Abu Dhabi, Al Zahiyah	3	x5K3*gQ)nU
-100060987	Sultan	2004/02/10	100060637@ku.ac.ae	0503908400	Abu Dhabi, Khalifa City A	3	vuF8-;%rk/
-100061456	Hamdan	2003/03/02	100060448@ku.ac.ae	0544845825	Abu Dhabi, Khalifa City A	3	x/shj"YH6$
-100060789	Fahad	2002/10/10	100058758@ku.ac.ae	0507344484	Abu Dhabi, Al Forsan	3	ZV7w4f$]3m
-100061567	Mayed	2002/6/10	100062837@ku.ac.ae	0557263347	Abu Dhabi, Al Forsan	3	#f%hfdg7$75
-100060234	Saleh	2002/11/02	100060000@ku.ac.ae	0501234567	Dubai, Downtown Dubai	3	r9.}CG{yDt
-100061789	Abdulhadi	2003/10/25	100061144@ku.ac.ae	0557722050	Abu Dhabi, Al Zahiyah	3	x5K3*gQ)nU
-100060567	Salem	2004/02/10	100060637@ku.ac.ae	0503908400	Abu Dhabi, Khalifa City A	3	vuF8-;%rk/
-100060999	Nasser	2003/03/02	100060448@ku.ac.ae	0544845825	Abu Dhabi, Khalifa City A	3	x/shj"YH6$
+100060011	Rashed	2002/11/02	100060011@ku.ac.ae	0501234567	Dubai, Downtown Dubai	3	r9.}CG{yDt
+100061234	Ahmed	2003/10/25	100061234@ku.ac.ae	0557722050	Abu Dhabi, Al Zahiyah	3	x5K3*gQ)nU
+100060987	Sultan	2004/02/10	100060987@ku.ac.ae	0503908400	Abu Dhabi, Khalifa City A	3	vuF8-;%rk/
+100061456	Hamdan	2003/03/02	100061456@ku.ac.ae	0544845825	Abu Dhabi, Khalifa City A	3	x/shj"YH6$
+100060789	Fahad	2002/10/10	100060789@ku.ac.ae	0507344484	Abu Dhabi, Al Forsan	3	ZV7w4f$]3m
+100061567	Mayed	2002/6/10	100061567@ku.ac.ae	0557263347	Abu Dhabi, Al Forsan	3	#f%hfdg7$75
+100060234	Saleh	2002/11/02	100060234@ku.ac.ae	0501234567	Dubai, Downtown Dubai	3	r9.}CG{yDt
+100061789	Abdulhadi	2003/10/25	100061789@ku.ac.ae	0557722050	Abu Dhabi, Al Zahiyah	3	x5K3*gQ)nU
+100060567	Salem	2004/02/10	100060567@ku.ac.ae	0503908400	Abu Dhabi, Khalifa City A	3	vuF8-;%rk/
+100060999	Nasser	2003/03/02	100060999@ku.ac.ae	0544845825	Abu Dhabi, Khalifa City A	3	x/shj"YH6$
 e	e	e	e	e	e	0	e
 a	a	a	a	a	a	0	a
 i	i	i	i	i	i	0	i

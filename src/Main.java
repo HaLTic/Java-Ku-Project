@@ -24,8 +24,8 @@ public class Main extends JFrame{
         
         if (panelName.equals("Admin")) {
             AdminPanel adminPanel = new AdminPanel(this);
-            JScrollPane scrollPane = adminPanel.getPanel();
-            component = scrollPane;
+            JPanel panel = adminPanel.getPanel();
+            component = panel;
         } else if (panelName.equals("User")) {
             UserPanel userPanel = new UserPanel(this);
             JPanel panel = userPanel.getPanel();
@@ -40,8 +40,8 @@ public class Main extends JFrame{
             component = panel;
         } else if (panelName.equals("Initiatives")) {
             InitiativesPanel initiativesPanel = new InitiativesPanel(this);
-            JScrollPane scrollPane = initiativesPanel.getPanel();
-            component = scrollPane;
+            JPanel panel = initiativesPanel.getPanel();
+            component = panel;
         }
         
         getContentPane().removeAll();
@@ -56,8 +56,8 @@ public class Main extends JFrame{
         
         if (panelName.equals("Initiator")) {
             InitiatorPanel initiatorPanel = new InitiatorPanel(this, name);
-            JScrollPane scrollPane = initiatorPanel.getPanel();
-            component = scrollPane;
+            JPanel panel = initiatorPanel.getPanel();
+            component = panel;
         }
         getContentPane().removeAll();
         add(component);
