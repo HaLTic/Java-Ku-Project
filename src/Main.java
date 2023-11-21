@@ -18,12 +18,6 @@ public class Main extends JFrame{
         showPanel("Main");
     }
     
-    public void showPanel() {
-        getContentPane().removeAll();
-        revalidate();
-        repaint();
-    }
-    
     public void showPanel(String panelName) { // All panels except for Initiator panel)
         Component component = null;
         PanelName = panelName;

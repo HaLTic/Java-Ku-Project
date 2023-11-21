@@ -1,10 +1,9 @@
 Admin info:
+-------------------
+* Username: admin
+* Password: admin2023
 
 -------------------
-Username: admin
-Password: admin2023
--------------------
-
 * Welcome to our OOP Fall 2023 Project for KU.
 * It's a simple volunteering app following the theme of the year (Sustainability).
 

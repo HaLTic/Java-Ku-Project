@@ -16,6 +16,7 @@ public class InitiatorPanel {
     private JPanel panel;
     private String initiatorName = "";
     private int initiativesCounter = 0;
+    private static boolean isRegistered;
 
     public InitiatorPanel(Main main, String initiatorName) {
     	this.initiatorName = initiatorName;
@@ -26,8 +27,10 @@ public class InitiatorPanel {
 
         JButton createInitiativeButton = new JButton("Create Initiative");
         panel.add(createInitiativeButton);
-        JButton viewInitiativesButton = new JButton("View Created Initiatives");
-        panel.add(viewInitiativesButton);
+        JButton viewActiveButton = new JButton("View Active Initiatives");
+        panel.add(viewActiveButton);
+        JButton viewPendingButton = new JButton("View Pending Initiatives");
+        panel.add(viewPendingButton);
 
         panel.add(new JLabel("")); // Empty label
 
@@ -40,8 +43,16 @@ public class InitiatorPanel {
             }
         });
 
-        viewInitiativesButton.addActionListener(new ActionListener() {
+        viewActiveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                isRegistered = true;
+            	initiativesList(main, "");
+            }
+        });
+
+        viewPendingButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	isRegistered = false;
             	initiativesList(main, "");
             }
         });
@@ -231,7 +242,12 @@ public class InitiatorPanel {
     
     public static boolean searchQueryInInitiatives(String searchText, String initiatorName) { // Search for initiatives in initiatives.txt file
         try {
-            File file = new File("initiatives.txt");
+            File file;
+            if (isRegistered) {
+                file = new File("initiatives.txt");
+            }
+            else
+                file = new File("pendingInitiatives.txt");
             Scanner scanner = new Scanner(file);
             
             String line = "";
@@ -317,13 +333,17 @@ public class InitiatorPanel {
         panel.add(initiativesPanel, BorderLayout.CENTER);
 
         try {
-            File file = new File("initiatives.txt");
+            File file;
+            if (isRegistered)
+                file = new File("initiatives.txt");
+            else 
+                file = new File("pendingInitiatives.txt");
 
             if (file.length() == 0) {
                 JOptionPane.showMessageDialog(panel, "No initiatives found.", "Warning", JOptionPane.INFORMATION_MESSAGE);  
                 main.showPanel("Initiator", UserPanel.name);
             }
-            BufferedReader reader = new BufferedReader(new FileReader("initiatives.txt"));
+            BufferedReader reader = new BufferedReader(new FileReader(file));
             String line;
             while ((line = reader.readLine()) != null) {
             	String id = line;
@@ -333,7 +353,7 @@ public class InitiatorPanel {
 	                String time = reader.readLine().trim();
 	                String creditPoints = reader.readLine();
 	                String description = reader.readLine();
-	                String status = InitiatorPanel.checkStatus(date, time);
+	                String status = checkStatus(date, time);
 	                reader.readLine();
 	                String initiatorName = reader.readLine();
 	                String volunteers = reader.readLine();
@@ -415,7 +435,16 @@ public class InitiatorPanel {
     }
     
     public void initiativesOptions(Main main, String [] specificArray, StringBuilder initiatives, String searchQuery) {
-    	Object[] options = {"OK", "Remove", "View Volunteers", "Edit"};
+        File file;
+        Object[] options;
+        if (isRegistered) {
+            file = new File("initiatives.txt");
+    	    options = new Object[]{"OK", "Remove", "View Volunteers", "Edit"};
+        }
+        else {
+            file = new File("pendingInitiatives.txt");
+            options = new Object[]{"OK", "Remove", "Edit"};
+        }
     	JPanel panel2 = new JPanel();
         int choice = JOptionPane.showOptionDialog(panel2, initiatives.toString(), "Initiative Info",
                 JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
@@ -426,14 +455,12 @@ public class InitiatorPanel {
             if (dialogResult == JOptionPane.YES_OPTION) {
                 // Remove initiative here
                 try {
-                    File inputFile = new File("initiatives.txt");
                     File tempFile = new File("temp.txt");                        
 
-                    BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+                    BufferedReader reader = new BufferedReader(new FileReader(file));
                     BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
                     
                     String lineToRemove = specificArray[0]; // The line that contains the initiative's information
-                
                     String currentLine;
                     while((currentLine = reader.readLine()) != null) {
                         // If the current line is the line to remove, skip the next lines
@@ -449,11 +476,11 @@ public class InitiatorPanel {
                     writer.close(); 
                     reader.close();
                     
-                    if (tempFile.renameTo(inputFile)) { // Updating file
-                        JOptionPane.showMessageDialog(panel, "Initiative successfully removed.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    if (tempFile.renameTo(file)) { // Updating file
+                        JOptionPane.showMessageDialog(panel2, "Initiative successfully removed.", "Success", JOptionPane.INFORMATION_MESSAGE);
                         initiativesList(main, searchQuery); // Update the initiative list
                     } else {
-                        JOptionPane.showMessageDialog(panel, "Initiative failed to remove.", "Failed", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(panel2, "Initiative failed to remove.", "Failed", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -464,19 +491,7 @@ public class InitiatorPanel {
             else
             	initiativesOptions(main, specificArray, initiatives, searchQuery);
             break;
-        case 2: // If "View Volunteers" was pressed
-        	StringBuilder volunteerList =  new StringBuilder();
-        	String[] volunteerNames = specificArray[9].split(" ");
-        	for (int i = 0; i < volunteerNames.length; i++)
-        		volunteerList.append((i+1) + ". ").append(volunteerNames[i]).append("\n");
-
-        	if (volunteerList.length() <= 4) {
-        		JOptionPane.showMessageDialog(panel2, "No registered volunteer found.", "Error", JOptionPane.ERROR_MESSAGE);
-        	} else
-        		JOptionPane.showMessageDialog(panel2, volunteerList.toString(), "Volunteers Info", JOptionPane.PLAIN_MESSAGE);
-        	initiativesOptions(main, specificArray, initiatives, searchQuery);
-        	break;
-        case 3: // If "Edit" was pressed
+        case 2: // If "Edit" was pressed
         	JTextField IDField = new JTextField(specificArray[0]);
             JTextField nameField = new JTextField(specificArray[1]);
             JTextField dateField = new JTextField(specificArray[2]);
@@ -569,6 +584,18 @@ public class InitiatorPanel {
                 }
             }
             initiativesOptions(main, specificArray, initiatives, searchQuery);
+        	break;
+        case 3: // If "View Volunteers" was pressed
+        	StringBuilder volunteerList =  new StringBuilder();
+        	String[] volunteerNames = specificArray[9].split(" ");
+        	for (int i = 0; i < volunteerNames.length; i++)
+        		volunteerList.append((i+1) + ". ").append(volunteerNames[i]).append("\n");
+
+        	if (volunteerList.length() <= 4) {
+        		JOptionPane.showMessageDialog(panel2, "No registered volunteer found.", "Error", JOptionPane.ERROR_MESSAGE);
+        	} else
+        		JOptionPane.showMessageDialog(panel2, volunteerList.toString(), "Volunteers Info", JOptionPane.PLAIN_MESSAGE);
+        	initiativesOptions(main, specificArray, initiatives, searchQuery);
         	break;
         default:
         	break;
