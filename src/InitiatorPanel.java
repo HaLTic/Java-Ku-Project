@@ -240,7 +240,7 @@ public class InitiatorPanel {
         Object[] options;
         if (isRegistered) {
             file = new File("initiatives.txt");
-    	    options = new Object[]{"OK", "Remove", "View Volunteers", "Edit"};
+    	    options = new Object[]{"OK", "Remove", "Edit", "View Volunteers"};
         }
         else {
             file = new File("pendingInitiatives.txt");

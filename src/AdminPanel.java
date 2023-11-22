@@ -273,7 +273,7 @@ public class AdminPanel{
     } 
     
     public static void initiativesOptions(Main main, AdminPanel adminPanel, String [] specificArray, StringBuilder initiatives, String searchQuery) {
-    	Object[] options = {"OK", "Remove", "View Volunteers"};
+    	Object[] options;
         if (isRegistered) {
             options = new Object[]{"OK", "Remove", "View Volunteers"};
         }
@@ -345,7 +345,7 @@ public class AdminPanel{
                             while((currentLine = reader.readLine()) != null) {
                                 // If the current line is the line to remove, skip the next lines
                                 if(currentLine.equals(lineToRemove)) {
-                                    for (int i = 0; i < 11; i++) {
+                                    for (int i = 0; i < 10; i++) {
                                         currentLine = reader.readLine();
                                     }
                                 } else {
