@@ -256,7 +256,7 @@ public class AdminPanel{
                     writer.close(); 
                     reader.close();
                     
-                    if (tempFile.renameTo(inputFile)) {// Updating file
+                    if (Main.renameFile(tempFile, inputFile)) {
                         JOptionPane.showMessageDialog(panel2, "User successfully removed.", "Success", JOptionPane.INFORMATION_MESSAGE);
                         updateUsersList(main, ""); // Update the user list
                     } else {
@@ -314,7 +314,7 @@ public class AdminPanel{
                             writer.close(); 
                             reader.close();
                             
-                            if (tempFile.renameTo(inputFile)) { // Updating file
+                            if (Main.renameFile(tempFile, inputFile)) {
                                 JOptionPane.showMessageDialog(panel2, "Initiative successfully removed.", "Success", JOptionPane.INFORMATION_MESSAGE);
                                 InitiativesPanel.initiativesList(main, adminPanel, searchQuery); // Update the initiative list
                             } else {
@@ -355,7 +355,7 @@ public class AdminPanel{
                             writer.close(); 
                             reader.close();
                             
-                            if (tempFile.renameTo(inputFile)) { // Updating file
+                            if (Main.renameFile(tempFile, inputFile)) {
                                 JOptionPane.showMessageDialog(panel2, "Pending initiative successfully removed.", "Success", JOptionPane.INFORMATION_MESSAGE);
                                 InitiativesPanel.initiativesList(main, adminPanel, searchQuery); // Update the user list
                             } else {

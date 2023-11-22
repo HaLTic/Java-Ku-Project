@@ -277,7 +277,7 @@ public class InitiatorPanel {
                     writer.close(); 
                     reader.close();
                     
-                    if (tempFile.renameTo(file)) { // Updating file
+                    if (Main.renameFile(tempFile, file)) {
                         JOptionPane.showMessageDialog(panel2, "Initiative successfully removed.", "Success", JOptionPane.INFORMATION_MESSAGE);
                         InitiativesPanel.initiativesList(main, initiatorPanel, searchQuery, INITIATOR_NAME); // Update the initiative list
                     } else {
@@ -363,7 +363,7 @@ public class InitiatorPanel {
             	} catch (IOException e) {
             	
             	}
-            	if (tempFile.renameTo(inputFile)) { // Updating file
+            	if (Main.renameFile(tempFile, inputFile)) { // Updating file
                     JOptionPane.showMessageDialog(panel2, "Initiative successfully edited.", "Success", JOptionPane.INFORMATION_MESSAGE);
                     StringBuilder updatedInitiatives = new StringBuilder();
             		

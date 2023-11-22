@@ -275,7 +275,7 @@ public class UserPanel {
 		                    writer2.close();
 		                    reader2.close();
 		                    
-		                    if (tempFile.renameTo(inputFile) && tempFile2.renameTo(inputFile2)) { // Updating both file
+		                    if (Main.renameFile(tempFile, inputFile) && Main.renameFile(tempFile2, inputFile2)) { // Updating both file
 		                        JOptionPane.showMessageDialog(panel2, "Initiative successfully registered.", "Success", JOptionPane.INFORMATION_MESSAGE);
 		                        InitiativesPanel.initiativesList(main, userPanel, searchQuery); // Update the initiative list
 		                    } else {
@@ -359,7 +359,7 @@ public class UserPanel {
 		                    reader.close();
 		                    writer2.close();
 		                    reader2.close();		                    
-		                    if (tempFile.renameTo(inputFile) && tempFile2.renameTo(inputFile2)) {// Updating file
+		                    if (Main.renameFile(tempFile, inputFile) && Main.renameFile(tempFile2, inputFile2)) {// Updating file
 		                        JOptionPane.showMessageDialog(panel2, "Initiative successfully withdrawn.", "Success", JOptionPane.INFORMATION_MESSAGE);
 		                        InitiativesPanel.initiativesList(main, userPanel, searchQuery); // Update the initiative list
 		                    } else {

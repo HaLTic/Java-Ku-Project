@@ -4,6 +4,7 @@ import java.io.*;
 
 public class Main extends JFrame{
     public static String PanelName;
+    public static final String osName = System.getProperty("os.name").toLowerCase();
     static int width = 400;
     static int height = 600;
 
@@ -65,6 +66,19 @@ public class Main extends JFrame{
         repaint();
     }
 
+    public static boolean renameFile(File tempFile, File targetFile) {
+        boolean isRenamed = false;
+    
+        if (Main.osName.contains("win")) { // If the OS is Windows
+            if (targetFile.delete()) {
+                isRenamed = tempFile.renameTo(targetFile);
+            }
+        } else { // For other OS (like macOS)
+            isRenamed = tempFile.renameTo(targetFile);
+        }
+    
+        return isRenamed;
+    }
     public static void main(String[] args) throws FileNotFoundException {
         new Main();
     }

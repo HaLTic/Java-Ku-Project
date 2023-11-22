@@ -448,7 +448,7 @@ public class InitiativesPanel {
         panel.repaint(); // Repaint the panel to reflect the changes
     }
     
-    // Append the initiative information to the "pendingInitiatives.txt" file
+    // Append the initiative information to the "pendingInitiatives.txt" file when initiative is created
     public static void approvalInitiatives(int volunteers, String ... fields) {
         // Save the initiative information to a file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("pendingInitiatives.txt", true))) {
@@ -468,7 +468,6 @@ public class InitiativesPanel {
         String line;
 
         while ((line = reader.readLine()) != null) {
-            System.out.println(line);
             if (line.equals(id)) { // Use equals() method to compare strings
                 for (int i = 0; i < 11; i++) {
                     writer.write(line + "\n");
@@ -500,7 +499,7 @@ public class InitiativesPanel {
         reader.close();
         writer.close();
         
-        pendingInitiativesTemp.renameTo(pendingInitiatives);
+        Main.renameFile(pendingInitiativesTemp, pendingInitiatives);
     }
 
     // Search for initiatives in initiatives.txt file for user panel
