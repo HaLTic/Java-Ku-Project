@@ -248,8 +248,8 @@ public class InitiatorPanel {
         }
     	JPanel panel2 = new JPanel();
         int choice = JOptionPane.showOptionDialog(panel2, initiatives.toString(), "Initiative Info",
-                JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
-                null, options, options[1]);
+                JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
+        
         switch (choice) {
         case 1: // If "Remove" was pressed
             int dialogResult = JOptionPane.showConfirmDialog(panel2, "Are you sure you want to remove the initiative?", "Confirm Removal", JOptionPane.YES_NO_OPTION);
@@ -343,7 +343,7 @@ public class InitiatorPanel {
     	            		for (JTextField i : fieldArray) {
     	            			if (i.getText().equals(fieldArray[6].getText())) {
     	            				fieldArray[6].setText(checkStatus(fieldArray[2].getText(), fieldArray[3].getText()));
-    	            				writer.write(fieldArray[6] + "\n");
+    	            				writer.write(fieldArray[6].getText() + "\n");
     	            			}
     	            			else
     	            				writer.write(i.getText() + "\n");
@@ -377,14 +377,18 @@ public class InitiatorPanel {
                     updatedInitiatives.append("Initiator Name: ").append(specificArray[7]).append("\n");
                     updatedInitiatives.append("Volunteers: ").append(specificArray[8]).append("\n");
                     updatedInitiatives.append("\n");
+
+                    String[] updatedSpecificArray = new String[9];
+                    for (int i = 0; i < fieldArray.length; i++) {
+                    	updatedSpecificArray[i] = fieldArray[i].getText();
+                    }
                     
-                    initiativesOptions(main, initiatorPanel, specificArray, updatedInitiatives, searchQuery); // Update the initiative
+                    initiativesOptions(main, initiatorPanel, updatedSpecificArray, updatedInitiatives, searchQuery); // Update the initiative
                 } else {
                     JOptionPane.showMessageDialog(panel2, "Initiative failed to edit.", "Failed", JOptionPane.INFORMATION_MESSAGE);
                     initiativesOptions(main, initiatorPanel, specificArray, initiatives, searchQuery);
                 }
             }
-            initiativesOptions(main, initiatorPanel, specificArray, initiatives, searchQuery);
         	break;
         case 3: // If "View Volunteers" was pressed
         	StringBuilder volunteerList =  new StringBuilder();
@@ -399,6 +403,7 @@ public class InitiatorPanel {
         	initiativesOptions(main, initiatorPanel, specificArray, initiatives, searchQuery);
         	break;
         default:
+            InitiativesPanel.initiativesList(main, initiatorPanel, searchQuery, INITIATOR_NAME);
         	break;
         }
     }
