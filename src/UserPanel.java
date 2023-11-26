@@ -47,30 +47,35 @@ public class UserPanel {
         panel.add(signoutButton);
 
         initiativesButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
             	InitiativesPanel.initiativesList(main, UserPanel.this, "");
             }
         });
 
         initiatorButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 main.showPanel("Initiator", name);
             }
         });
 
         editPersonalInfoButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 editPersonalInfo(main);
             }
         });
         
         printVolunteeringHistoryButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
             	printVolunteerHistory(main);
             }
         });
 
         signoutButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 main.showPanel("Main");
             }

@@ -35,12 +35,14 @@ public class InitiatorPanel {
         panel.add(backButton);
 
         createInitiativeButton.addActionListener(new ActionListener() {
+            @Override
         	public void actionPerformed(ActionEvent e) {
         		createInitiative(main);
             }
         });
 
         viewActiveButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 isRegistered = true;
             	InitiativesPanel.initiativesList(main, InitiatorPanel.this, "", INITIATOR_NAME);
@@ -48,6 +50,7 @@ public class InitiatorPanel {
         });
 
         viewPendingButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
             	isRegistered = false;
             	InitiativesPanel.initiativesList(main, InitiatorPanel.this, "", INITIATOR_NAME);
@@ -55,6 +58,7 @@ public class InitiatorPanel {
         });
 
         backButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
         		main.showPanel("User");
             }
@@ -98,7 +102,7 @@ public class InitiatorPanel {
     	int counter = 0;
         String line = "";
         
-        // Reads from both initiatives.txt and pendingInitiatives.txt files.
+        // Reads from initiatives.txt file.
         // Appends counter to limit initiator from having more than 2 active initiatives.
         try (BufferedReader reader1 = new BufferedReader(new FileReader("initiatives.txt"))) {
         	    for (int i = 0; i < 7; i++) {
@@ -107,7 +111,7 @@ public class InitiatorPanel {
         	    while ((line = reader1.readLine()) != null) {
         	        if (line.equals(INITIATOR_NAME)) {
         	            counter++;
-        	            if (counter > 1) {
+        	            if (counter >= 2) {
         	                break;
         	            }
         	        }
@@ -124,7 +128,11 @@ public class InitiatorPanel {
         	JOptionPane.showMessageDialog(panel, "You're not allowed to create a new initiative\nbecause you have 2 active initiatives.\n ", "Error!", JOptionPane.ERROR_MESSAGE);
         } else {
 	    	boolean allFieldsFilled = false;
-	        JPanel inputPanel = new JPanel(new GridLayout(6, 2));
+            JPanel panel2 = new JPanel();
+	        JPanel inputPanel = new JPanel(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridwidth = GridBagConstraints.REMAINDER;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
 	
 	        JTextField nameField = new JTextField();
             UtilDateModel dateModel = new UtilDateModel();
@@ -136,15 +144,20 @@ public class InitiatorPanel {
             JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
             datePicker.getJFormattedTextField().setEditable(false);
             JTextField creditPointsField = new JTextField();
-            JTextField descriptionField = new JTextField();
+
+            JTextArea descriptionField = new JTextArea(5, 20);
+            descriptionField.setLineWrap(true);
+            descriptionField.setWrapStyleWord(true);
+            JScrollPane descriptionScrollPane = new JScrollPane(descriptionField);
             JTextField initiatorNameField = new JTextField();
 
             JTextField timeField = new JTextField();
+            timeField.setEditable(false);
             timeField.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     TimePicker timePicker = new TimePicker();
-                    int option = JOptionPane.showConfirmDialog(panel, timePicker, "Select Time", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                    int option = JOptionPane.showConfirmDialog(panel2, timePicker, "Select Time", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                     if (option == JOptionPane.OK_OPTION) {
                         LocalTime selectedTime = timePicker.getTime();
                         if (selectedTime != null) {
@@ -156,25 +169,31 @@ public class InitiatorPanel {
                 }
             });
 
-            JTextField[] arrayField = {nameField, timeField, creditPointsField, descriptionField};
+            JTextField[] arrayField = {nameField, timeField, creditPointsField};
             initiatorNameField.setText(INITIATOR_NAME);
             initiatorNameField.setEditable(false);
 
-            inputPanel.add(new JLabel("Name:"));
-            inputPanel.add(nameField);
-            inputPanel.add(new JLabel("Date (YYYY-MM-DD):"));
-	        inputPanel.add(datePicker);
-	        inputPanel.add(new JLabel("Time (HH:MM):"));
-	        inputPanel.add(timeField);
-	        inputPanel.add(new JLabel("Credit Points:"));
-	        inputPanel.add(creditPointsField);
-	        inputPanel.add(new JLabel("Description:"));
-	        inputPanel.add(descriptionField);
-	        inputPanel.add(new JLabel("Initiator Name:"));
-	        inputPanel.add(initiatorNameField);
+            inputPanel.add(new JLabel("Name:"), gbc);
+            inputPanel.add(nameField, gbc);
+            inputPanel.add(new JLabel("Date (YYYY-MM-DD):"), gbc);
+	        inputPanel.add(datePicker, gbc);
+	        inputPanel.add(new JLabel("Time (HH:MM):"), gbc);
+	        inputPanel.add(timeField, gbc);
+	        inputPanel.add(new JLabel("Credit Points:"), gbc);
+	        inputPanel.add(creditPointsField, gbc);
+            inputPanel.add(new JLabel("Description:"), gbc);
+
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.weighty = 1;
+            inputPanel.add(descriptionScrollPane, gbc);
+
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            gbc.weighty = 0;
+	        inputPanel.add(new JLabel("Initiator Name:"), gbc);
+	        inputPanel.add(initiatorNameField, gbc);
 	        
 	        while (!allFieldsFilled) {
-	            int result = JOptionPane.showConfirmDialog(panel, inputPanel, "Create Initiative", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+	            int result = JOptionPane.showConfirmDialog(panel2, inputPanel, "Create Initiative", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	            if (result == JOptionPane.OK_OPTION) {
 	                int emptyCounter = 0;
 	                for (JTextField field : arrayField) {
@@ -184,29 +203,34 @@ public class InitiatorPanel {
 	                }
                     if (datePicker.getJFormattedTextField().getText().isEmpty())
                         emptyCounter++;
+                    if (descriptionField.getText().trim().isEmpty())
+                        emptyCounter++;
                         
 	                if (emptyCounter != 0) {
-	                    JOptionPane.showMessageDialog(panel, "Please fill in all the fields.\n" + emptyCounter + " fields remaining", "Error!", JOptionPane.ERROR_MESSAGE);
-	                } else {
-	                    allFieldsFilled = true;		                
+	                    JOptionPane.showMessageDialog(panel2, "Please fill in all the fields.\n" + emptyCounter + " fields remaining", "Error!", JOptionPane.ERROR_MESSAGE);
+                    } else {
+	                    	                
 	                    String name = nameField.getText();
                         String date = datePicker.getJFormattedTextField().getText();
 		                String time = timeField.getText();
 		                String creditPoints = creditPointsField.getText();
-		                String description = descriptionField.getText();
+		                String description = descriptionField.getText().replace("\n", " ");
 		                String initiatorName = initiatorNameField.getText();
 		                String id = generateID();
 		                String status = checkStatus(date, time);
-		                int volunteers = 0;
-		                String volunteerNames = "";
-		                
-	                    try (BufferedWriter writer = new BufferedWriter(new FileWriter("pendingInitiatives.txt", true))) {
-	                        InitiativesPanel.approvalInitiatives(volunteers, id, name, date, time, creditPoints, description, status, initiatorName, volunteerNames);
-	                        JOptionPane.showMessageDialog(panel, "Initiative created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-	                    } catch (IOException ex) {
-	                        ex.printStackTrace();
-	                    }
-		                
+
+                        if(status.equals("Expired")) {
+                            JOptionPane.showMessageDialog(panel2, "Please enter a valid date and time.", "Error!", JOptionPane.ERROR_MESSAGE);
+                        }
+                        else {
+                            allFieldsFilled = true;	
+                            try (BufferedWriter writer = new BufferedWriter(new FileWriter("pendingInitiatives.txt", true))) {
+                                InitiativesPanel.approvalInitiatives(id, name, date, time, creditPoints, description, status, initiatorName);
+                                JOptionPane.showMessageDialog(panel2, "Initiative created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
 	        		}
 	        	} else {
 	        		break;
@@ -233,7 +257,7 @@ public class InitiatorPanel {
 
             return "";
         }
-        }
+     }
     
     public static void initiativesOptions(Main main, InitiatorPanel initiatorPanel, String [] specificArray, StringBuilder initiatives, String searchQuery) {
         File file;

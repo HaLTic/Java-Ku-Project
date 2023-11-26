@@ -37,6 +37,7 @@ public class InitiativesPanel {
         searchBarPanel.add(searchButton);
 
         searchButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 String searchText = searchBar.getText(); // Get the text from the search bar
                 boolean queryFound = InitiativesPanel.searchQueryInInitiatives(searchText); // Search the initiative in the file
@@ -86,6 +87,7 @@ public class InitiativesPanel {
 	                titleBox.add(infoButton);
 	
 	                infoButton.addActionListener(new ActionListener() {
+            @Override
 	                	public void actionPerformed(ActionEvent e) {
 	                		String [] specificArray = {id, name, date, time, creditPoints, description, status, initiatorName, volunteers, volunteerNames};
 	                        try {
@@ -132,6 +134,7 @@ public class InitiativesPanel {
         backButtonPanel.add(backButton);
 
         backButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
             	main.showPanel("User");
             }
@@ -175,6 +178,7 @@ public class InitiativesPanel {
         searchBarPanel.add(searchButton);
 
         searchButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 String searchText = searchBar.getText(); // Get the text from the search bar
                 boolean queryFound = InitiativesPanel.searchQueryInInitiatives(searchText, initiator_name, InitiatorPanel.isRegistered); // Search the initiative in the file
@@ -228,6 +232,7 @@ public class InitiativesPanel {
 		                titleBox.add(infoButton);
 		
 		                infoButton.addActionListener(new ActionListener() {
+            @Override
 		                	public void actionPerformed(ActionEvent e) {
 		                		String [] specificArray = {id, name, date, time, creditPoints, description, status, initiatorName, volunteers, volunteerNames};
 		                        try {
@@ -285,6 +290,7 @@ public class InitiativesPanel {
         backButtonPanel.add(backButton);
 
         backButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
             	main.showPanel("Initiator", UserPanel.name);
             }
@@ -327,6 +333,7 @@ public class InitiativesPanel {
         searchBarPanel.add(searchButton);
         
         searchButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 String searchText = searchBar.getText(); // Get the text from the search bar
                 boolean queryFound = InitiativesPanel.searchQueryInInitiatives(searchText, AdminPanel.isRegistered); // Search the initiative in the file
@@ -380,6 +387,7 @@ public class InitiativesPanel {
 		                titleBox.add(infoButton);
 		
 		                infoButton.addActionListener(new ActionListener() {
+            @Override
 		                	public void actionPerformed(ActionEvent e) {
 		                		String [] specificArray = {id, name, date, time, creditPoints, description, status, initiatorName, volunteers, volunteerNames};
 		                        try {
@@ -427,6 +435,7 @@ public class InitiativesPanel {
         backButtonPanel.add(backButton);
 
         backButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
             	main.showPanel("Admin");
             }
@@ -449,10 +458,10 @@ public class InitiativesPanel {
     }
     
     // Append the initiative information to the "pendingInitiatives.txt" file when initiative is created
-    public static void approvalInitiatives(int volunteers, String ... fields) {
+    public static void approvalInitiatives(String ... fields) {
         // Save the initiative information to a file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("pendingInitiatives.txt", true))) {
-            writer.write(fields[0] + "\n" + fields[1] + "\n" + fields[2] + "\n" + fields[3] + "\n" + fields[4] + "\n" + fields[5] + "\n"+ fields[6] + "\n" + fields[7] + "\n" + volunteers + "\n" + fields[8]);
+            writer.write(fields[0] + "\n" + fields[1] + "\n" + fields[2] + "\n" + fields[3] + "\n" + fields[4] + "\n" + fields[5] + "\n"+ fields[6] + "\n" + fields[7] + "\n0\n");
             writer.write("\n------------------\n");
             writer.flush();
         } catch (IOException ex) {

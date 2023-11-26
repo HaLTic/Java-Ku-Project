@@ -29,12 +29,14 @@ public class AdminPanel{
         panel.add(signoutButton);
 
         usersButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
             	updateUsersList(main, "");
             }
         });
 
         viewInitiativesButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 isRegistered = true;
             	InitiativesPanel.initiativesList(main, AdminPanel.this, "");
@@ -42,6 +44,7 @@ public class AdminPanel{
         });
         
         approveInitiativesButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 isRegistered = false;
             	InitiativesPanel.initiativesList(main, AdminPanel.this, "");
@@ -49,6 +52,7 @@ public class AdminPanel{
         });
 
         signoutButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 main.showPanel("Main");
             }
@@ -78,6 +82,7 @@ public class AdminPanel{
         searchBarPanel.add(searchButton);
 	
 	    searchButton.addActionListener(new ActionListener() {
+            @Override
 	        public void actionPerformed(ActionEvent e) {
 	            String searchText = searchBar.getText(); // Get the text from the search bar
 	            boolean queryFound = searchQueryInUsers(searchText); // Search the user in the file
@@ -120,6 +125,7 @@ public class AdminPanel{
 	                userBox.add(infoButton);
 	
 	                infoButton.addActionListener(new ActionListener() {
+            @Override
 	                    public void actionPerformed(ActionEvent e) {
 	                        // Display user info here
 	                        JTextField[] arrayField = new JTextField[8];
@@ -173,6 +179,7 @@ public class AdminPanel{
         backButtonPanel.add(backButton);
 	
 	    backButton.addActionListener(new ActionListener() {
+            @Override
 	        public void actionPerformed(ActionEvent e) {
 	            main.showPanel("Admin"); // Back to Admin page
 	        }

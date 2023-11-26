@@ -39,6 +39,7 @@ public class MainPanel {
         panel.add(quitButton);
 
         loginButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 String passwordInput = String.valueOf(passwordField.getPassword());
 
@@ -79,12 +80,14 @@ public class MainPanel {
 
 
         signupButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 main.showPanel("Sign up");
             }
         });
         
         quitButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }

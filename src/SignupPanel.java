@@ -48,6 +48,7 @@ public class SignupPanel {
         panel.add(backButton);
 
         signupButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 String name = nameInput.getText();
                 String dob = DOBInput.getText();
@@ -81,6 +82,7 @@ public class SignupPanel {
 
 
         backButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 main.showPanel("Main");
             }

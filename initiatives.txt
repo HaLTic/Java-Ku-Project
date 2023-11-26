@@ -1,77 +1,66 @@
 6979
-SOB 
+Donate Food
 2023-12-01
 12:00 PM
 3
-e
+Located in Community Center, Al Falah Street. Donate non-perishable items to support local families.
 Active
-e
-7
-Rashed Mohammed Ali Ahmed Sultan Hamdan Fahad Mayed e 
+Salem
+9
+Rashed Mohammed Ali Ahmed Sultan Hamdan Fahad Mayed 
 ------------------
 1232
-BBBBBBB
+Donation Collection
 2023-11-20
 6:30 PM
 3
-e
+Located in Abu Dhabi Central Library. Contribute clothing, toys, books, and household items in good condition.
 Active
-e
+Rashed
 5
-Ali Zayed Saleh Mariam Abdulhadi e 
+Ali Zayed Saleh Mariam Abdulhadi 
 ------------------
 9474
-DDDDDDD
+Beach Cleanup
 2023-12-01
 02:25 PM
 3
-e
+Located in Dubai Seaside Park. Join us in preserving the beauty of our coastline.
 Active
-a
+Mariam
 4
 Saif Mohammed Salem Nasser 
 ------------------
 9555
-Save The Earth
+Street Cleaning
 2023-12-12
 09:00 PM
 3
-We're here, cause we're the BEST!!1!1
+In multiple locations in Abu Dhabi city. Collective effort to remove litter and beautify neighborhoods.
 Active
 Saif
 0
 
 ------------------
 1938
-AAAAAAA
+Recycling Help
 2023-11-01
 02:30 PM
 3
-a
+Located in Dubai Recycling Center. Assist in sorting and classifying recyclable items.
 Expired
-a
-0
-
-------------------
-5227
-test
-2023-11-22
-12:00 PM
-3
-test
-Active
-i
+Mariam
 0
 
 ------------------
 1493
-CCCCDDDD
+Planting Initiative
 2023-11-01
 03:25 PM
 3
-e
+Located in Abu Dhabi Community Park. Be part of a greener future through tree planting.
 Expired
-Saif
+Abdulhadi
 0
 
 ------------------
