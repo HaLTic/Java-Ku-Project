@@ -125,7 +125,7 @@ public class AdminPanel{
 	                userBox.add(infoButton);
 	
 	                infoButton.addActionListener(new ActionListener() {
-            @Override
+                        @Override
 	                    public void actionPerformed(ActionEvent e) {
 	                        // Display user info here
 	                        JTextField[] arrayField = new JTextField[8];

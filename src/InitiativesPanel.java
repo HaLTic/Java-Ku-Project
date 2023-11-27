@@ -87,7 +87,7 @@ public class InitiativesPanel {
 	                titleBox.add(infoButton);
 	
 	                infoButton.addActionListener(new ActionListener() {
-            @Override
+                        @Override
 	                	public void actionPerformed(ActionEvent e) {
 	                		String [] specificArray = {id, name, date, time, creditPoints, description, status, initiatorName, volunteers, volunteerNames};
 	                        try {
@@ -232,7 +232,7 @@ public class InitiativesPanel {
 		                titleBox.add(infoButton);
 		
 		                infoButton.addActionListener(new ActionListener() {
-            @Override
+                            @Override
 		                	public void actionPerformed(ActionEvent e) {
 		                		String [] specificArray = {id, name, date, time, creditPoints, description, status, initiatorName, volunteers, volunteerNames};
 		                        try {
@@ -387,7 +387,7 @@ public class InitiativesPanel {
 		                titleBox.add(infoButton);
 		
 		                infoButton.addActionListener(new ActionListener() {
-            @Override
+                            @Override
 		                	public void actionPerformed(ActionEvent e) {
 		                		String [] specificArray = {id, name, date, time, creditPoints, description, status, initiatorName, volunteers, volunteerNames};
 		                        try {
