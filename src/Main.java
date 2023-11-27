@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 
-public class Main extends JFrame{
+public class Main extends JFrame {
     public static String PanelName;
     public static final String osName = System.getProperty("os.name").toLowerCase();
     static int width = 400;

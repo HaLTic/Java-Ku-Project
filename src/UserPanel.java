@@ -176,7 +176,7 @@ public class UserPanel {
         // Rename the temporary file to the original file
         File originalFile = new File(filePath);
         File tempFileObject = new File(tempFile);
-        tempFileObject.renameTo(originalFile);
+        Main.renameFile(tempFileObject, originalFile);
     }
 
     public static void initiativesUserOptions(Main main, UserPanel userPanel, String [] specificArray, StringBuilder initiatives, String searchQuery) {
