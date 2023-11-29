@@ -1,13 +1,11 @@
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.JFormattedTextField.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import org.jdatepicker.impl.*;
 import com.github.lgooddatepicker.components.*;
 
 public class InitiatorPanel {
@@ -119,9 +117,9 @@ public class InitiatorPanel {
         	            reader1.readLine();
         	        }
         	    }
-        	} catch (IOException ex) {
-        	    ex.printStackTrace();
-        	}
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
         
         if (counter >= 2) {
@@ -135,14 +133,10 @@ public class InitiatorPanel {
             gbc.fill = GridBagConstraints.HORIZONTAL;
 	
 	        JTextField nameField = new JTextField();
-            UtilDateModel dateModel = new UtilDateModel();
-            Properties p = new Properties();
-            p.put("text.day", "Day");
-            p.put("text.month", "Month");
-            p.put("text.year", "Year");
-            JDatePanelImpl datePanel = new JDatePanelImpl(dateModel, p);
-            JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-            datePicker.getJFormattedTextField().setEditable(false);
+            DatePickerSettings datePickerSettings = new DatePickerSettings();
+            // Set the date format
+            datePickerSettings.setFormatForDatesCommonEra("yyyy-MM-dd");
+            DatePicker datePicker = new DatePicker(datePickerSettings);
             JTextField creditPointsField = new JTextField();
 
             JTextArea descriptionField = new JTextArea(5, 20);
@@ -156,7 +150,8 @@ public class InitiatorPanel {
             timeField.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    TimePicker timePicker = new TimePicker();
+                    TimePickerSettings timePickerSettings = new TimePickerSettings();
+                    TimePicker timePicker = new TimePicker(timePickerSettings);
                     int option = JOptionPane.showConfirmDialog(panel2, timePicker, "Select Time", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                     if (option == JOptionPane.OK_OPTION) {
                         LocalTime selectedTime = timePicker.getTime();
@@ -201,7 +196,7 @@ public class InitiatorPanel {
 	                        emptyCounter++;
 	                    }
 	                }
-                    if (datePicker.getJFormattedTextField().getText().isEmpty())
+                    if (datePicker.getText().isEmpty())
                         emptyCounter++;
                     if (descriptionField.getText().trim().isEmpty())
                         emptyCounter++;
@@ -211,7 +206,7 @@ public class InitiatorPanel {
                     } else {
 	                    	                
 	                    String name = nameField.getText();
-                        String date = datePicker.getJFormattedTextField().getText();
+                        String date = datePicker.getText();
 		                String time = timeField.getText();
 		                String creditPoints = creditPointsField.getText();
 		                String description = descriptionField.getText().replace("\n", " ");
@@ -238,27 +233,7 @@ public class InitiatorPanel {
 	        }
         }
     }
-
-    public class DateLabelFormatter extends AbstractFormatter { // Create date picker
-        private String datePattern = "yyyy-MM-dd";
-        private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
-
-        @Override
-        public Object stringToValue(String text) throws ParseException {
-            return dateFormatter.parseObject(text);
-        }
-
-        @Override
-        public String valueToString(Object value) throws ParseException {
-            if (value != null) {
-                Calendar cal = (Calendar) value;
-                return dateFormatter.format(cal.getTime());
-            }
-
-            return "";
-        }
-     }
-    
+ 
     public static void initiativesOptions(Main main, InitiatorPanel initiatorPanel, String [] specificArray, StringBuilder initiatives, String searchQuery) {
         File file;
         Object[] options;

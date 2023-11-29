@@ -26,6 +26,8 @@ public class MainPanel {
         panel.add(new JLabel("")); // Empty label
 
         JButton loginButton = new JButton("Login"); // Login button
+        // Set the login button as the default button
+        main.getRootPane().setDefaultButton(loginButton);
         panel.add(loginButton);
 
         JButton signupButton = new JButton("Sign Up"); // Sign up button
@@ -77,7 +79,6 @@ public class MainPanel {
                 }
             }
         });
-
 
         signupButton.addActionListener(new ActionListener() {
             @Override

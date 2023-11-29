@@ -5,8 +5,8 @@ import java.io.*;
 public class Main extends JFrame {
     public static String PanelName;
     public static final String osName = System.getProperty("os.name").toLowerCase();
-    static int width = 400;
-    static int height = 600;
+    static final int width = 400;
+    static final int height = 600;
 
     public Main() {
         new JFrame("Volunteer for the Earth");
@@ -69,7 +69,7 @@ public class Main extends JFrame {
     public static boolean renameFile(File tempFile, File targetFile) {
         boolean isRenamed = false;
     
-        if (Main.osName.contains("win")) { // If the OS is Windows
+        if (osName.contains("win")) { // If the OS is Windows
             if (targetFile.delete()) {
                 isRenamed = tempFile.renameTo(targetFile);
             }

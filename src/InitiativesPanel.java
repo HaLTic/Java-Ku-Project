@@ -40,7 +40,7 @@ public class InitiativesPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String searchText = searchBar.getText(); // Get the text from the search bar
-                boolean queryFound = InitiativesPanel.searchQueryInInitiatives(searchText); // Search the initiative in the file
+                boolean queryFound = searchQueryInInitiatives(searchText); // Search the initiative in the file
 
                 // Check if the initiative was not found
                 if (!queryFound)
@@ -181,7 +181,7 @@ public class InitiativesPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String searchText = searchBar.getText(); // Get the text from the search bar
-                boolean queryFound = InitiativesPanel.searchQueryInInitiatives(searchText, initiator_name, InitiatorPanel.isRegistered); // Search the initiative in the file
+                boolean queryFound = searchQueryInInitiatives(searchText, initiator_name, InitiatorPanel.isRegistered); // Search the initiative in the file
 
                 // Check if the initiative was not found
                 if (!queryFound)
@@ -336,7 +336,7 @@ public class InitiativesPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String searchText = searchBar.getText(); // Get the text from the search bar
-                boolean queryFound = InitiativesPanel.searchQueryInInitiatives(searchText, AdminPanel.isRegistered); // Search the initiative in the file
+                boolean queryFound = searchQueryInInitiatives(searchText, AdminPanel.isRegistered); // Search the initiative in the file
 
                 // Check if the initiative was not found
                 if (!queryFound)
