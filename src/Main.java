@@ -79,6 +79,7 @@ public class Main extends JFrame {
     
         return isRenamed;
     }
+    
     public static void main(String[] args) throws FileNotFoundException {
         new Main();
     }

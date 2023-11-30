@@ -278,7 +278,7 @@ public class AdminPanel{
             }
         }
     } 
-    
+
     public static void initiativesOptions(Main main, AdminPanel adminPanel, String [] specificArray, StringBuilder initiatives, String searchQuery) {
     	Object[] options;
         if (isRegistered) {

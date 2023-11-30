@@ -1,14 +1,3 @@
-6979
-Donate Food
-2023-12-01
-12:00 PM
-3
-Located in Community Center, Al Falah Street. Donate non-perishable items to support local families.
-Active
-Salem
-9
-Rashed Mohammed Ali Ahmed Sultan Hamdan Fahad Mayed 
-------------------
 1232
 Donation Collection
 2023-11-20
@@ -49,7 +38,7 @@ Recycling Help
 3
 Located in Dubai Recycling Center. Assist in sorting and classifying recyclable items.
 Expired
-Mariam
+Abdulhadi
 0
 
 ------------------
@@ -58,9 +47,9 @@ Planting Initiative
 2023-11-01
 03:25 PM
 3
-Located in Abu Dhabi Community Park. Be part of a greener future through tree planting.
+Be part of a greener future through tree planting.
 Expired
-Abdulhadi
+Mohammed
 0
 
 ------------------

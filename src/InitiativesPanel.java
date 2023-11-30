@@ -162,8 +162,16 @@ public class InitiativesPanel {
         panel = initiatorPanel.getPanel();
     	panel.removeAll(); // Remove existing components
         panel.setLayout(new BorderLayout()); // Use BorderLayout
-
-        JLabel title = new JLabel("Initiatives List");
+        File file;
+        JLabel title;
+        if (AdminPanel.isRegistered) {
+            file = new File("initiatives.txt");
+            title = new JLabel("Initiatives List");
+        }
+        else {
+            file = new File("pendingInitiatives.txt");
+            title = new JLabel("Pending Initiatives List");
+        }
         title.setFont(new Font("Arial", Font.PLAIN, 24));
         panel.add(title, BorderLayout.NORTH);
 
@@ -194,11 +202,6 @@ public class InitiativesPanel {
 
         // Create a new panel for the initiatives
         JPanel initiativesPanel = new JPanel();
-        File file;
-        if (InitiatorPanel.isRegistered)
-                file = new File("initiatives.txt");
-            else 
-                file = new File("pendingInitiatives.txt");
         if (file.length() == 0) {
             JOptionPane.showMessageDialog(panel, "No initiatives found.", "Warning", JOptionPane.INFORMATION_MESSAGE);  
             main.showPanel("Initiator", UserPanel.name);
@@ -317,8 +320,16 @@ public class InitiativesPanel {
         panel = adminPanel.getPanel();
     	panel.removeAll(); // Remove existing components
         panel.setLayout(new BorderLayout()); // Use BorderLayout
-
-        JLabel title = new JLabel("Initiatives List");
+        File file;
+        JLabel title;
+        if (AdminPanel.isRegistered) {
+            file = new File("initiatives.txt");
+            title = new JLabel("Initiatives List");
+        }
+        else {
+            file = new File("pendingInitiatives.txt");
+            title = new JLabel("Pending Initiatives List");
+        }
         title.setFont(new Font("Arial", Font.PLAIN, 24));
         panel.add(title, BorderLayout.NORTH);
 
@@ -349,13 +360,6 @@ public class InitiativesPanel {
 
         // Create a new panel for the initiatives
         JPanel initiativesPanel = new JPanel();
-        File file;
-        if (AdminPanel.isRegistered) {
-            file = new File("initiatives.txt");
-        }
-        else {
-            file = new File("pendingInitiatives.txt");
-        }
         if (file.length() == 0) {
                 JOptionPane.showMessageDialog(panel, "No initiatives found.", "Warning", JOptionPane.INFORMATION_MESSAGE);  
                 main.showPanel("Admin");

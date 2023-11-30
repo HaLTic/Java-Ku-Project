@@ -293,6 +293,7 @@ public class InitiatorPanel {
             break;
         case 2: // If "Edit" was pressed
         	JTextField IDField = new JTextField(specificArray[0]);
+            IDField.setEditable(false);
             JTextField nameField = new JTextField(specificArray[1]);
             JTextField dateField = new JTextField(specificArray[2]);
             JTextField timeField = new JTextField(specificArray[3]);
