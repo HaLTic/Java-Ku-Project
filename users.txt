@@ -3,6 +3,7 @@
 100060448	Mohammed	2003/03/02	100060448@ku.ac.ae	0544845825	Abu Dhabi, Khalifa City A	6	x/shj"YH6$
 100058758	Zayed	2002/10/10	100058758@ku.ac.ae	0507344484	Abu Dhabi, Al Forsan	3	ZV7w4f$]3m
 100062837	Mariam	2002/6/10	100062837@ku.ac.ae	0557263347	Abu Dhabi, Khalidiya	3	#f%hfdg7$75
+100060011	Rashed	2002/11/02	100060011@ku.ac.ae	0501234567	Dubai, Downtown Dubai	3	r9.}CG{yDt
 100061234	Ahmed	2003/10/25	100061234@ku.ac.ae	0582345671	Dubai, Jumeirah Lakes Towers	3	x5K3*gQ)nU
 100060987	Sultan	2004/02/10	100060987@ku.ac.ae	0559012346	Abu Dhabi, Al Reem Island	3	vuF8-;%rk/
 100061456	Hamdan	2003/03/02	100061456@ku.ac.ae	0564321098	Dubai, Business Bay	3	x/shj"YH6$
@@ -12,6 +13,4 @@
 100061789	Abdulhadi	2003/10/25	100061789@ku.ac.ae	0528763412	Dubai, Al Barsha	3	x5K3*gQ)nU
 100060567	Salem	2004/02/10	100060567@ku.ac.ae	0512345678	Abu Dhabi, Mussafah	3	vuF8-;%rk/
 100060999	Nasser	2003/03/02	100060999@ku.ac.ae	0578901234	Dubai, Deira	3	x/shj"YH6$
-e	e	e	e	e	e	0	e
-a	a	a	a	a	a	0	a
-i	i	i	i	i	i	0	i
+

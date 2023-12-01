@@ -164,7 +164,7 @@ public class InitiativesPanel {
         panel.setLayout(new BorderLayout()); // Use BorderLayout
         File file;
         JLabel title;
-        if (AdminPanel.isRegistered) {
+        if (InitiatorPanel.isRegistered) {
             file = new File("initiatives.txt");
             title = new JLabel("Initiatives List");
         }
