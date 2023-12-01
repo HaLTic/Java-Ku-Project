@@ -1,12 +1,12 @@
 6979
 Donate Food
-2023-12-01
+2023-12-08
 12:00 PM
 3
 Located in Community Center, Al Falah Street. Donate non-perishable items to support local families.
 Active
 Salem
-9
+8
 Rashed Mohammed Ali Ahmed Sultan Hamdan Fahad Mayed 
 ------------------
 1232
@@ -15,7 +15,7 @@ Donation Collection
 6:30 PM
 3
 Located in Abu Dhabi Central Library. Contribute clothing, toys, books, and household items in good condition.
-Active
+Expired
 Rashed
 5
 Ali Zayed Saleh Mariam Abdulhadi 
@@ -26,7 +26,7 @@ Beach Cleanup
 02:25 PM
 3
 Located in Dubai Seaside Park. Join us in preserving the beauty of our coastline.
-Active
+Expired
 Mariam
 4
 Saif Mohammed Salem Nasser 
